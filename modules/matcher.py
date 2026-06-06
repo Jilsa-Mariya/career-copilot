@@ -19,28 +19,27 @@ IMPORTANT RULES:
 - No markdown.
 - No explanations.
 - No code blocks.
-- Strengths should be short (1-3 words).
-- Missing skills should be short.
-- Resume improvements should be short action items.
 
-Return in this exact format:
+A skill can be:
+
+1. Strength
+- Explicitly mentioned in resume
+- Strong evidence from projects
+
+2. Partial Match
+- Related experience exists
+- Skill is implied but not explicitly mentioned
+- Example: Flask + Postman implies REST APIs
+
+3. Missing Skill
+- No meaningful evidence exists
+Return EXACTLY:
 
 {{
-  "match_score": 80,
-  "strengths": [
-    "Python",
-    "SQL",
-    "Backend Development"
-  ],
-  "missing_skills": [
-    "Docker",
-    "REST APIs"
-  ],
-  "resume_improvements": [
-    "Add REST API experience",
-    "Add project metrics",
-    "Learn Docker"
-  ]
+  "strengths": [],
+  "partial_matches": [],
+  "missing_skills": [],
+  "resume_improvements": []
 }}
 
 Resume:
@@ -58,4 +57,24 @@ Job Description:
     result = result.replace("```", "")
     result = result.strip()
 
-    return json.loads(result)
+    data = json.loads(result)
+
+    matched = len(data["strengths"])
+    partial = len(data["partial_matches"])
+    missing = len(data["missing_skills"])
+
+    weighted_score = (
+        matched * 1 +
+        partial * 0.5
+    )
+
+    total = matched + partial + missing
+
+    if total > 0:
+        score = round((weighted_score / total) * 100)
+    else:
+        score = 0
+
+    data["match_score"] = score
+
+    return data

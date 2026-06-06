@@ -7,24 +7,25 @@ genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 
-def generate_questions(resume_text, jd_text):
+def generate_learning_path(missing_skills):
 
     prompt = f"""
-Generate interview questions based on the resume and job description.
+Create a project-based learning roadmap.
+
+Missing Skills:
+{missing_skills}
 
 Return ONLY JSON.
 
 {{
-    "technical": [],
-    "hr": [],
-    "project": []
+    "roadmap": [
+        {{
+            "skill": "",
+            "goal": "",
+            "project": ""
+        }}
+    ]
 }}
-
-Resume:
-{resume_text}
-
-Job Description:
-{jd_text}
 """
 
     response = model.generate_content(prompt)

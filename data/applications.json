@@ -1,0 +1,151 @@
+[
+    {
+        "id": 1,
+        "company": "TCS",
+        "role": "Software Developer Intern",
+        "match_score": 59,
+        "strengths": [
+            "Python",
+            "SQL",
+            "Git/GitHub",
+            "Problem Solving",
+            "Team Collaboration",
+            "Flask",
+            "Postman"
+        ],
+        "partial_matches": [
+            "REST APIs",
+            "Object-Oriented Programming",
+            "Code Reviews",
+            "Debugging Activities",
+            "Writing Clean, Maintainable, and Documented Code",
+            "Testing and Deployment"
+        ],
+        "missing_skills": [
+            "Java",
+            "Docker",
+            "Linux Basics",
+            "Cloud Fundamentals (AWS/Azure/GCP)"
+        ],
+        "resume_improvements": [
+            "Explicitly mention experience with designing and consuming RESTful APIs in project descriptions.",
+            "Clearly state experience with Object-Oriented Programming (OOP) principles, perhaps by detailing its application in projects.",
+            "Add any experience with Java, as it is a required skill for backend development in the job description.",
+            "Detail any involvement in code reviews, debugging, testing, or deployment activities.",
+            "Highlight practices related to writing clean, maintainable, and documented code.",
+            "Consider gaining exposure to Docker, Linux Basics, and Cloud Fundamentals (AWS/Azure/GCP) to match preferred skills.",
+            "Quantify achievements or impact in project descriptions where possible (e.g., number of users, performance improvements).",
+            "Update the Junior Software Engineering Intern experience with specific responsibilities and achievements as they progress."
+        ],
+        "learning_path": {
+            "roadmap": [
+                {
+                    "skill": "Linux Basics",
+                    "goal": "Understand command-line navigation, file system, process management, and basic shell scripting.",
+                    "project": "Set up a Linux VM (using VirtualBox, WSL2, or a free-tier cloud instance). Configure SSH access, install essential development tools (e.g., Git, OpenJDK), and write a simple shell script to monitor system resources or automate a file cleanup task."
+                },
+                {
+                    "skill": "Java (Core)",
+                    "goal": "Master Java syntax, OOP principles, fundamental data structures, exception handling, and basic I/O operations.",
+                    "project": "Develop a command-line application (e.g., a 'Task Manager' or 'Simple Inventory System') that stores data in memory or a flat file. Focus on clean code, object-oriented design, and proper error handling."
+                },
+                {
+                    "skill": "Docker (Fundamentals)",
+                    "goal": "Understand containerization concepts, write Dockerfiles, build and run Docker images for Java applications.",
+                    "project": "Create a Dockerfile for the previously built Java command-line 'Task Manager' application. Build the Docker image and run it as a container. Experiment with different base images (e.g., `openjdk`, `eclipse-temurin`) and expose ports if applicable."
+                },
+                {
+                    "skill": "Java (Web Frameworks) & Docker",
+                    "goal": "Learn to build a simple RESTful API using a Java web framework (e.g., Spring Boot) and containerize it.",
+                    "project": "Develop a simple 'To-Do List' REST API using Spring Boot. This API should allow creating, reading, updating, and deleting to-do items. Create a Dockerfile to containerize this Spring Boot application and ensure it can run successfully in a Docker container."
+                },
+                {
+                    "skill": "Docker (Orchestration)",
+                    "goal": "Understand how to orchestrate multiple containers (application and database) using Docker Compose for local development environments.",
+                    "project": "Enhance the 'To-Do List' REST API to connect to a PostgreSQL or MySQL database. Create a `docker-compose.yml` file to run both the Spring Boot API container and the database container together, configuring network and volume mounts for data persistence."
+                },
+                {
+                    "skill": "Cloud Fundamentals (IaaS - Compute, Network, Security) & Docker",
+                    "goal": "Understand basic cloud infrastructure (Virtual Machines, Networking, Security Groups/Firewalls) and deploy a Dockerized application to a cloud Virtual Machine.",
+                    "project": "Choose a cloud provider (e.g., AWS EC2, Azure VM, GCP Compute Engine). Launch a Linux VM instance. Install Docker on it. Deploy the 'To-Do List' Spring Boot application (using either the single-container image or the multi-container setup via Docker Compose) onto this VM. Configure cloud security groups/firewalls to allow HTTP/HTTPS access to the API endpoint."
+                },
+                {
+                    "skill": "Cloud Fundamentals (PaaS - Container Services & Managed Databases) & Docker",
+                    "goal": "Learn to use managed container services and managed databases for scalable and resilient deployments in the cloud.",
+                    "project": "Migrate the 'To-Do List' application. Deploy the Dockerized Spring Boot API to a managed container service (e.g., AWS ECS/Fargate, Azure Container Apps, GCP Cloud Run). Migrate the database to a managed database service (e.g., AWS RDS, Azure Database for PostgreSQL, GCP Cloud SQL). Configure environment variables, network connectivity, and secrets management between the application and database. Optionally, set up basic CI/CD (e.g., using GitHub Actions) to automate image build and deployment to the cloud."
+                }
+            ]
+        },
+        "status": "Saved"
+    },
+    {
+        "id": 2,
+        "company": "TCS",
+        "role": "Software Developer Intern",
+        "match_score": 44,
+        "strengths": [
+            "Python",
+            "SQL",
+            "Git/GitHub",
+            "Problem Solving",
+            "Team Collaboration",
+            "Flask",
+            "Postman"
+        ],
+        "partial_matches": [
+            "REST APIs",
+            "Debugging activities"
+        ],
+        "missing_skills": [
+            "Object-Oriented Programming",
+            "Java",
+            "Docker",
+            "Linux Basics",
+            "Cloud Fundamentals (AWS/Azure/GCP)",
+            "Code reviews",
+            "Writing clean, maintainable, and documented code",
+            "Testing activities",
+            "Deployment activities"
+        ],
+        "resume_improvements": [
+            "Explicitly state experience with Object-Oriented Programming (OOP) principles, especially how they were applied in Python projects.",
+            "Detail whether you designed, developed, or primarily consumed RESTful APIs in your projects.",
+            "If you have any experience with Java, even from coursework, add it to your technical skills.",
+            "Add specific examples of participating in code reviews, writing clean/maintainable/documented code, or utilizing debugging tools/strategies.",
+            "Include any experience with testing methodologies (e.g., unit testing, integration testing) or deployment processes.",
+            "Consider gaining basic exposure to and mentioning preferred skills like Docker, Linux Basics, and Cloud Fundamentals (AWS/Azure/GCP).",
+            "Expand on your Junior Software Engineering Intern role, even if in progress, by mentioning the tech stack or anticipated responsibilities/learning.",
+            "Quantify achievements in projects where possible (e.g., 'trained LSTM models on X dataset', 'developed a platform supporting Y features')."
+        ],
+        "learning_path": {
+            "roadmap": [
+                {
+                    "skill": "Object-Oriented Programming, Java (Core Syntax), Writing clean, maintainable, and documented code (basics)",
+                    "goal": "Understand fundamental OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction) and write basic functional Java applications with good code hygiene. Learn to document code using Javadoc.",
+                    "project": "Develop a Console-based 'Library Management System'. Implement classes for Book, Member, and a LibraryManager. Focus on applying OOP concepts like creating well-encapsulated classes, handling collections (e.g., ArrayLists of books/members), and adding Javadoc comments for classes and methods. Ensure clear variable names, consistent formatting, and logical code flow."
+                },
+                {
+                    "skill": "Java (Advanced features: Collections, File I/O, Exception Handling), Testing activities (JUnit), Linux Basics (CLI)",
+                    "goal": "Enhance Java applications with data persistence and robust testing. Gain proficiency in basic Linux command-line operations and script execution.",
+                    "project": "Extend the 'Library Management System'. Add functionality to save and load book and member data to/from a CSV or JSON file using Java's File I/O. Implement JUnit 5 tests for key business logic (e.g., adding/removing books, borrowing/returning books). Practice exception handling for file operations. Learn and practice essential Linux commands (ls, cd, mkdir, cp, mv, rm, cat, grep, tail, vi/nano) by compiling, running, and managing the Java application from a Linux terminal (e.g., local VM, WSL, or a cloud shell). Create a simple shell script to automate application startup."
+                },
+                {
+                    "skill": "Docker, Linux Basics (Container context), Deployment activities (Containerization)",
+                    "goal": "Containerize a Java application using Docker, understanding its benefits for packaging and portability. Familiarize with Docker commands and concepts.",
+                    "project": "Dockerize the enhanced 'Library Management System'. Create a Dockerfile to package the Java application, including its dependencies and the compiled JAR. Build the Docker image and run the application as a container. Experiment with core Docker commands (docker build, docker run, docker ps, docker logs, docker stop, docker rm). Understand basic Docker concepts like images, containers, and volumes (e.g., to persist the data file outside the container)."
+                },
+                {
+                    "skill": "Cloud Fundamentals (AWS/Azure/GCP - pick one, e.g., AWS EC2), Deployment activities (Cloud VM), Code reviews (self-review/peer-review checklist)",
+                    "goal": "Understand core cloud concepts, deploy a containerized application to a cloud Virtual Machine, and begin practicing systematic code review principles.",
+                    "project": "Deploy the Dockerized 'Library Management System' to a Cloud VM (e.g., AWS EC2, Azure VM, GCP Compute Engine). Provision a VM instance, install Docker, and pull/run your Docker image on the instance. Configure network security groups/firewall rules to allow necessary access. Document the entire deployment process, including cloud resource setup. For code review, perform a detailed self-review of your Dockerfile, deployment script, and Java code using a predefined checklist focusing on security, efficiency, adherence to standards, and documentation. Optionally, share your work for a peer to review against the same checklist."
+                },
+                {
+                    "skill": "Java (Spring Boot REST API), Testing activities (Integration Testing, Mocking), Code reviews (collaborative/structured), Deployment activities (CI/CD, Cloud Container Services)",
+                    "goal": "Develop a production-ready RESTful API, implement comprehensive testing, establish an automated CI/CD pipeline for cloud deployment, and integrate structured code review practices for collaboration and quality assurance.",
+                    "project": "Develop a Spring Boot RESTful API for an 'E-commerce Product Catalog Service'. Implement CRUD operations for products, using a relational database (e.g., PostgreSQL). Write extensive JUnit tests, including unit tests with mocking, and integration tests for the API endpoints. Dockerize both the Spring Boot application and the PostgreSQL database using `docker-compose` for local development. Set up a CI/CD pipeline (e.g., GitHub Actions, GitLab CI, Jenkins) to automatically: 1) Build the Java application, 2) Run all tests, 3) Build the Docker image, 4) Push the image to a container registry (e.g., AWS ECR, Docker Hub), and 5) Deploy the application to a managed cloud container service (e.g., AWS ECS/Fargate, Azure Container Instances, GCP Cloud Run). Integrate mandatory code reviews into the Git workflow (e.g., pull requests requiring N approvals) before merging to the main branch, focusing on API design, test coverage, code quality, and cloud deployment best practices."
+                }
+            ]
+        },
+        "status": "Saved"
+    }
+]
