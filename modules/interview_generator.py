@@ -10,14 +10,18 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 def generate_questions(resume_text, jd_text):
 
     prompt = f"""
-Generate interview questions based on the resume and job description.
+Create interview preparation content.
 
 Return ONLY JSON.
 
 {{
-    "technical": [],
-    "hr": [],
-    "project": []
+    "technical_topics": [],
+    "technical_questions": [],
+
+    "hr_topics": [],
+    "hr_questions": [],
+
+    "project_questions": []
 }}
 
 Resume:

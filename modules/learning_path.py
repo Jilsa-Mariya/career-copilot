@@ -10,7 +10,7 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 def generate_learning_path(missing_skills):
 
     prompt = f"""
-Create a project-based learning roadmap.
+Create a learning plan.
 
 Missing Skills:
 {missing_skills}
@@ -21,7 +21,8 @@ Return ONLY JSON.
     "roadmap": [
         {{
             "skill": "",
-            "goal": "",
+            "topics": [],
+            "resources": [],
             "project": ""
         }}
     ]

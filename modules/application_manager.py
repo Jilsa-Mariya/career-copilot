@@ -42,3 +42,41 @@ def get_application(app_id):
             return app
 
     return None
+
+def update_notes(
+    app_id,
+    notes
+):
+
+    applications = load_applications()
+
+    for app in applications:
+
+        if app["id"] == app_id:
+
+            app["notes"] = notes
+
+            break
+
+    save_applications(
+        applications
+    )
+
+def update_status(
+    app_id,
+    status
+):
+
+    applications = load_applications()
+
+    for app in applications:
+
+        if app["id"] == app_id:
+
+            app["status"] = status
+
+            break
+
+    save_applications(
+        applications
+    )
