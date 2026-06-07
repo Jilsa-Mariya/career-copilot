@@ -10,30 +10,26 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 def analyze_match(resume_text, jd_text):
 
     prompt = f"""
-You are an ATS resume analyzer.
+You are a strict ATS analyzer.
 
-Compare the resume against the job description.
+IMPORTANT:
 
-IMPORTANT RULES:
-- Return ONLY valid JSON.
-- No markdown.
-- No explanations.
-- No code blocks.
+1. ONLY evaluate skills that appear in the Job Description.
 
-A skill can be:
+2. NEVER invent skills.
 
-1. Strength
-- Explicitly mentioned in resume
-- Strong evidence from projects
+3. NEVER recommend skills that are not present in the Job Description.
 
-2. Partial Match
-- Related experience exists
-- Skill is implied but not explicitly mentioned
-- Example: Flask + Postman implies REST APIs
+4. A skill must be classified as exactly one of:
+- Strength
+- Partial Match
+- Missing Skill
 
-3. Missing Skill
-- No meaningful evidence exists
-Return EXACTLY:
+5. Every JD skill must appear in one of those categories.
+
+6. Match score should be based ONLY on JD skills.
+
+Return ONLY valid JSON.
 
 {{
   "strengths": [],
@@ -50,6 +46,8 @@ Job Description:
 """
 
     response = model.generate_content(prompt)
+    print(response)
+    print(response.text)
 
     result = response.text.strip()
 

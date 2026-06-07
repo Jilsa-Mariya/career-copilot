@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Copilot - Premium Candidate Dashboard</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- React & Babel CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              200: '#ddd6fe',
+              300: '#c4b5fd',
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9',
+              800: '#5b21b6',
+              900: '#4c1d95',
+              950: '#2e1065',
+            },
+            dark: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            }
+          },
+          animation: {
+            'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'spin-slow': 'spin 8s linear infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+          },
+          keyframes: {
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style type="text/css">
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      overflow-x: hidden;
+    }
+    
+    .font-heading {
+      font-family: "Outfit", sans-serif;
+    }
+
+    /* Radial gradient backgrounds */
+    .bg-grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+    }
+    
+    .glass-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .glass-card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-2px);
+      border-color: rgba(139, 92, 246, 0.2);
+      box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.15);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 50%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-border-btn {
+      position: relative;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      transition: all 0.3s ease;
+    }
+    .gradient-border-btn:hover {
+      box-shadow: 0 0 20px 0 rgba(124, 58, 237, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Keyframes for simple typing indicator */
+    .typing-dot {
+      animation: typing-bounce 1.4s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing-bounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-6px); }
+    }
+  </style>
+</head>
+<body class="h-full bg-dark-950 bg-grid-pattern relative">
+  <div id="root" class="h-full"></div>
+
+  <!-- React code with Babel -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ==========================================
+    // INLINE SVG ICONS
+    // ==========================================
+    const Icons = {
+      Briefcase: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+      ),
+      Award: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+        </svg>
+      ),
+      TrendingUp: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+          <polyline points="16 7 22 7 22 13"/>
+        </svg>
+      ),
+      Plus: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M5 12h14M12 5v14"/>
+        </svg>
+      ),
+      ChevronLeft: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      ),
+      Sparkles: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+          <path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5Z"/>
+          <path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1Z"/>
+        </svg>
+      ),
+      CheckCircle: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <path d="m22 4-10 10.01-3-3"/>
+        </svg>
+      ),
+      AlertCircle: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" x2="12" y1="8" y2="12"/>
+          <line x1="12" x2="12.01" y1="16" y2="16"/>
+        </svg>
+      ),
+      Lightbulb: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .6 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
+          <path d="M9 18h6"/>
+          <path d="M10 22h4"/>
+        </svg>
+      ),
+      BookOpen: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      ),
+      Users: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      ),
+      MessageSquare: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      ),
+      FileText: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+          <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+          <path d="M10 9H8"/>
+          <path d="M16 13H8"/>
+          <path d="M16 17H8"/>
+        </svg>
+      ),
+      Edit3: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+        </svg>
+      ),
+      Eye: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      ),
+      Download: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" x2="12" y1="15" y2="3"/>
+        </svg>
+      ),
+      Check: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className={className}>
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      ),
+      Trash: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+        </svg>
+      ),
+      Search: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+      ),
+      UploadCloud: ({ className = "w-10 h-10" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+          <path d="M12 12v9"/>
+          <polyline points="8 16 12 12 16 16"/>
+        </svg>
+      ),
+      Send: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="m22 2-7 20-4-9-9-4Z"/>
+          <path d="M22 2 11 13"/>
+        </svg>
+      ),
+      User: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      ),
+      Calendar: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+          <line x1="16" x2="16" y1="2" y2="6"/>
+          <line x1="8" x2="8" y1="2" y2="6"/>
+          <line x1="3" x2="21" y1="10" y2="10"/>
+        </svg>
+      ),
+      Play: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <polygon points="6 3 20 12 6 21 6 3"/>
+        </svg>
+      ),
+      Checklist: ({ className = "w-5 h-5" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+          <path d="m9 11 3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      )
+    };
+
+    // ==========================================
+    // INITIAL MOCK DATA
+    // ==========================================
+    const initialApplications = [
+      {
+        id: 1,
+        company: "TCS",
+        role: "Software Developer Intern",
+        resume_filename: "Jilsa_Mariya_Resume_May26.pdf",
+        resume_text: "...",
+        jd_text: "We are looking for a Software Developer Intern who is passionate about building scalable software solutions and learning modern development practices. The candidate will work with experienced developers on real-world projects involving backend systems, databases, APIs, and cloud technologies.\n\nResponsibilities\n* Develop and maintain backend applications using Python and Java.\n* Design and consume RESTful APIs.\n* Work with SQL databases and write optimized queries.\n* Collaborate with cross-functional teams to deliver software solutions.\n* Participate in code reviews and debugging activities.\n* Write clean, maintainable, and documented code.\n* Assist in testing and deployment activities.\n\nRequired Skills\n* Python\n* SQL\n* Git/GitHub\n* REST APIs\n* Object-Oriented Programming\n* Problem Solving\n* Team Collaboration",
+        match_score: 61,
+        strengths: ["Python", "SQL", "Git/GitHub", "REST APIs", "Problem Solving", "Team Collaboration", "Flask", "Postman"],
+        partial_matches: ["Object-Oriented Programming", "Code Reviews", "Debugging", "Writing clean/maintainable code", "Testing activities"],
+        missing_skills: ["Java", "Docker", "Linux Basics", "Cloud Fundamentals (AWS/Azure/GCP)"],
+        resume_improvements: [
+          "Quantify project achievements and impact using metrics (e.g., performance improvements, efficiency gains, user reach).",
+          "Elaborate on the 'Junior Software Engineering Intern' role, detailing any specific technologies, tasks, or learning experiences.",
+          "Explicitly mention and provide examples of Object-Oriented Programming (OOP) principles applied in Python projects.",
+          "Highlight specific experiences with code reviews, debugging techniques, writing clean/maintainable/documented code, and any involvement in testing or deployment.",
+          "Include an 'Objective' or 'Summary' statement at the beginning of the resume to provide a concise overview."
+        ],
+        learning_path: {
+          roadmap: [
+            {
+              skill: "Linux Basics",
+              topics: ["CLI fundamentals (cd, ls, mv, cp, rm)", "File system navigation & permissions", "Process management (ps, top, kill)", "Shell scripting basics"],
+              resources: ["The Linux Command Line (Book)", "Linux Journey (Online Tutorial)", "freeCodeCamp Linux Crash Course (YouTube)"],
+              project: "Create a bash script that automates backing up specific directories and monitoring disk usage on a schedule."
+            },
+            {
+              skill: "Java",
+              topics: ["Core Java Syntax", "OOP principles (Inheritance, Polymorphism)", "Collections Framework", "Exception Handling", "JUnit Testing"],
+              resources: ["Head First Java (Book)", "Oracle Java Tutorials", "Java Programming Masterclass (Udemy)"],
+              project: "Develop a console-based Simple Banking System applying OOP principles and Java Collections."
+            },
+            {
+              skill: "Docker",
+              topics: ["Containers vs. VMs", "Dockerfile syntax", "Building and running containers", "Docker Compose for multi-containers"],
+              resources: ["Docker Official Docs", "Docker Deep Dive (Bret Fisher)", "freeCodeCamp Docker Course (YouTube)"],
+              project: "Containerize a Flask application and connect it to a MySQL container using Docker Compose."
+            }
+          ]
+        },
+        interview_prep: {
+          technical_topics: ["Python Core & OOP", "SQL joins & query optimization", "REST API principles", "Flask framework", "Git version control"],
+          technical_questions: [
+            "Explain the key principles of Object-Oriented Programming (OOP) and how you've applied them in your Python projects.",
+            "Can you describe the differences between list, tuple, set, and dictionary in Python?",
+            "What is the difference between SQL and NoSQL databases? When would you choose MySQL over MongoDB?",
+            "Describe the different types of SQL JOINs. Provide a scenario where you would use a LEFT JOIN."
+          ],
+          hr_topics: ["Motivation for Backend Engineering", "Teamwork & Collaboration", "Problem-Solving under pressure", "Time management"],
+          hr_questions: [
+            "What motivated you to pursue a career in software development, particularly in backend engineering?",
+            "Describe a time when you had to work effectively as part of a team to achieve a common goal.",
+            "Tell me about a significant technical challenge you encountered. How did you approach it?"
+          ],
+          project_questions: [
+            "Could you walk me through the 'ThermaSense' project? How did you train the LSTM models?",
+            "In 'Moodmentor', you integrated facial expression analysis. What was the most complex part of that implementation?"
+          ]
+        },
+        status: "Rejected",
+        notes: "Deadline at June 16. Follow up with HR about potential future developer roles."
+      },
+      {
+        id: 2,
+        company: "Stripe",
+        role: "Frontend Engineer (React)",
+        resume_filename: "Jilsa_Mariya_Resume_May26.pdf",
+        resume_text: "...",
+        jd_text: "Stripe is looking for a Frontend Engineer to build beautiful, highly-responsive interfaces for our merchant dashboard. You will work extensively with React, Tailwind CSS, TypeScript, and state management tools.\n\nQualifications:\n- Strong expertise in React and modern hooks\n- Proficient in CSS, Tailwind, or responsive styling\n- Understanding of build tools like Vite, Webpack\n- Familiarity with design systems and micro-frontends",
+        match_score: 84,
+        strengths: ["React.js", "Tailwind CSS", "JavaScript (ES6+)", "Git/GitHub", "HTML5 & CSS3", "Figma integration"],
+        partial_matches: ["TypeScript", "Vite", "Responsive Design patterns"],
+        missing_skills: ["Webpack", "State Management (Redux/Zustand)", "Cypress Testing", "GraphQL"],
+        resume_improvements: [
+          "Highlight projects using React state management tools more explicitly.",
+          "Add mention of TypeScript if applicable, or state interest in transitioning projects to TypeScript.",
+          "Elaborate on frontend components and component lifecycle optimizations."
+        ],
+        learning_path: {
+          roadmap: [
+            {
+              skill: "Zustand & Redux",
+              topics: ["Global state stores", "Actions and dispatchers", "Middleware & async actions", "DevTools debugging"],
+              resources: ["Zustand Github & docs", "Redux Toolkit docs", "Academind state management course"],
+              project: "Build a multi-step checkout workflow with Zustand global store, preserving input state across refreshes."
+            },
+            {
+              skill: "TypeScript",
+              topics: ["Basic Types & Interfaces", "Generics in TypeScript", "React component props typing", "Strict mode debugging"],
+              resources: ["TypeScript Deep Dive (Book)", "NoBS TS (YouTube Series by Jack Herrington)"],
+              project: "Migrate an existing JS/React project to TypeScript, resolving all strictly-typed component errors."
+            }
+          ]
+        },
+        interview_prep: {
+          technical_topics: ["React Fiber & reconciliation", "State updates batching", "Tailwind utility layout performance", "Web Performance optimization"],
+          technical_questions: [
+            "What is the Virtual DOM and how does React reconcile changes?",
+            "How does React's useMemo and useCallback hook prevent unnecessary re-renders?",
+            "Explain the difference between flexbox and grid layouts in Tailwind, and when to use which."
+          ],
+          hr_topics: ["Company mission alignment", "UX/Design collaboration", "Continuous feedback"],
+          hr_questions: [
+            "Why do you want to work at Stripe? What product details interest you the most?",
+            "How do you resolve a design disagreement with a UI/UX designer?"
+          ],
+          project_questions: [
+            "Walk me through how you designed the responsive layout for 'Moodmentor'. Did you use Tailwind or custom CSS?"
+          ]
+        },
+        status: "Interviewing",
+        notes: "Round 2 technical coding interview scheduled for next Thursday. Review CSS grid and compound component patterns."
+      },
+      {
+        id: 3,
+        company: "Google",
+        role: "Associate Software Engineer",
+        resume_filename: "Jilsa_Mariya_Resume_May26.pdf",
+        resume_text: "...",
+        jd_text: "Google is hiring Associate Software Engineers to solve challenging problems in scalable distributed systems. Ideal candidates have strong computer science fundamentals in data structures, algorithms, system design, and clean code principles.\n\nMinimum qualifications:\n- Bachelor's in CS or equivalent\n- Proficiency in Java, C++, or Python\n- Solid foundation in DSA",
+        match_score: 74,
+        strengths: ["Python", "SQL", "Problem Solving", "C programming", "Algorithm Design", "Team Collaboration"],
+        partial_matches: ["Data Structures", "Big-O Notation Analysis", "Clean Code practices"],
+        missing_skills: ["System Design", "Distributed Systems", "C++ templates", "Advanced Algorithms (Graph, DP)"],
+        resume_improvements: [
+          "Incorporate more data-structure specific terms in project descriptions.",
+          "Add hackathon achievements at the very top of experience sections.",
+          "Mention specific algorithm paradigms used in predictive systems like 'ThermaSense'."
+        ],
+        learning_path: {
+          roadmap: [
+            {
+              skill: "System Design",
+              topics: ["Scalability fundamentals (Horizontal vs. Vertical)", "Load Balancers", "Caching mechanisms (Redis)", "Database replication & sharding"],
+              resources: ["System Design Primer (GitHub)", "ByteByteGo (Alex Xu)", "Grokking the System Design Interview"],
+              project: "Design a high-level architecture diagram for a URL shortener, detailing database scaling and caching strategies."
+            },
+            {
+              skill: "Advanced Algorithms",
+              topics: ["Graph traversals (BFS/DFS)", "Dijkstra's shortest path", "Dynamic Programming (Knapsack, LCS)", "Trie and Trees structure"],
+              resources: ["CLRS Introduction to Algorithms (Book)", "LeetCode patterns guides", "NeetCode.io courses"],
+              project: "Implement a customizable search auto-complete system using a Trie data structure, optimized for fast prefix lookup."
+            }
+          ]
+        },
+        interview_prep: {
+          technical_topics: ["Data Structures (Trees, Graphs, HashTables)", "Complexity Analysis (Time & Space)", "Algorithm paradigms (Greedy, Divide & Conquer)"],
+          technical_questions: [
+            "Describe how a HashMap handles collisions. What is the time complexity in worst-case vs average-case?",
+            "How would you find the shortest path in an unweighted grid? Explain the algorithm.",
+            "What is the difference between dynamic programming and memoization?"
+          ],
+          hr_topics: ["Googliness & Leadership", "Ambiguity tolerance", "Inclusive workspace contribution"],
+          hr_questions: [
+            "Give an example of a time when you took initiative on a project. What was the impact?",
+            "How do you deal with ambiguous requirements when a project is assigned to you?"
+          ],
+          project_questions: [
+            "How does 'ThermaSense' handle anomalous temperature inputs? What algorithm was used to clean/filter training data?"
+          ]
+        },
+        status: "Applied",
+        notes: "Completed the Online Assessment. Awaiting feedback from the recruiter."
+      }
+    ];
+
+    const mockEvaluationReport = {
+      score: 8,
+      strengths: [
+        "Clearly articulated the core concepts of OOP (Encapsulation, Inheritance, Polymorphism, Abstraction).",
+        "Gave concrete real-world project examples (e.g. creating distinct class frameworks for databases in SkillTrack).",
+        "Demonstrated a strong technical grasp of Python's execution model and method resolution."
+      ],
+      improvements: [
+        "Could provide more detail on encapsulation: explain private/protected attributes (`__` double underscore prefix in Python) and getter/setter practices.",
+        "Include reference to composition vs. inheritance, which is a highly valued system-design principle."
+      ]
+    };
+
+    // ==========================================
+    // MAIN APP COMPONENT
+    // ==========================================
+    function App() {
+      const [apps, setApps] = useState(() => {
+        const saved = localStorage.getItem("copilot_apps");
+        return saved ? JSON.parse(saved) : initialApplications;
+      });
+      const [selectedAppId, setSelectedAppId] = useState(null);
+      const [currentTab, setCurrentTab] = useState("overview");
+      const [showNewAppModal, setShowNewAppModal] = useState(false);
+      
+      // Keep track of active mock interview simulation
+      const [activeInterview, setActiveInterview] = useState(null);
+
+      // Save applications to local storage on change
+      useEffect(() => {
+        localStorage.setItem("copilot_apps", JSON.stringify(apps));
+      }, [apps]);
+
+      const selectedApp = apps.find(a => a.id === selectedAppId);
+
+      const handleAddApplication = (newApp) => {
+        const id = apps.length > 0 ? Math.max(...apps.map(a => a.id)) + 1 : 1;
+        const completeApp = {
+          id,
+          company: newApp.company,
+          role: newApp.role,
+          resume_filename: newApp.resume_filename || "Uploaded_Resume.pdf",
+          resume_text: "Uploaded resume content parsed successfully.",
+          jd_text: newApp.jd_text,
+          match_score: newApp.match_score || Math.floor(Math.random() * 30) + 60, // 60-90
+          strengths: newApp.strengths || ["Python", "JavaScript", "SQL", "Team Collaboration"],
+          partial_matches: newApp.partial_matches || ["OOP", "Web API design"],
+          missing_skills: newApp.missing_skills || ["Docker", "AWS Cloud", "Linux Administration"],
+          resume_improvements: newApp.resume_improvements || [
+            "Use active verbs to start bullets.",
+            "Quantify results in the experience section.",
+            "Format layout to match typical ATS standards."
+          ],
+          learning_path: newApp.learning_path || {
+            roadmap: [
+              {
+                skill: "Docker",
+                topics: ["Containers basics", "Dockerfiles", "Docker compose"],
+                resources: ["Official Docs", "Docker Course on freeCodeCamp"],
+                project: "Containerize your latest web application with a production database."
+              },
+              {
+                skill: "AWS Cloud",
+                topics: ["EC2 instances", "S3 buckets", "VPC setup"],
+                resources: ["AWS Skill Builder", "Cloud Practitioner Guide"],
+                project: "Deploy static frontend assets to S3 and point to a Custom Domain."
+              }
+            ]
+          },
+          interview_prep: newApp.interview_prep || {
+            technical_topics: ["Software Architecture", "Relational Databases", "REST APIs", "Modern JS & Python Frameworks"],
+            technical_questions: [
+              "What is a stateless API, and why is scalability associated with it?",
+              "Describe the differences between SQL normalization levels (1NF, 2NF, 3NF)."
+            ],
+            hr_topics: ["Collaboration", "Conflict Resolution", "Growth Mindset"],
+            hr_questions: [
+              "How do you handle feedback that you strongly disagree with?",
+              "What is your dream engineering culture?"
+            ],
+            project_questions: [
+              "Walk through a technical trade-off you had to make in one of your personal projects."
+            ]
+          },
+          status: "Saved",
+          notes: ""
+        };
+        
+        setApps([...apps, completeApp]);
+        setSelectedAppId(id); // Go straight to the workspace of the new app
+        setCurrentTab("overview");
+      };
+
+      const handleUpdateStatus = (appId, newStatus) => {
+        setApps(apps.map(a => a.id === appId ? { ...a, status: newStatus } : a));
+      };
+
+      const handleSaveNotes = (appId, newNotes) => {
+        setApps(apps.map(a => a.id === appId ? { ...a, notes: newNotes } : a));
+      };
+
+      const handleDeleteApp = (appId, e) => {
+        e.stopPropagation();
+        if (confirm("Are you sure you want to delete this job workspace?")) {
+          setApps(apps.filter(a => a.id !== appId));
+          if (selectedAppId === appId) {
+            setSelectedAppId(null);
+          }
+        }
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col">
+          {/* Top Premium Navbar */}
+          <header className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+              <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setSelectedAppId(null)}>
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
+                  <Icons.Sparkles className="w-5 h-5 text-white animate-pulse-subtle" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">CAREER</span>
+                  <span className="font-heading font-extrabold text-xl tracking-tight text-primary-400 ml-1">COPILOT</span>
+                </div>
+              </div>
+
+              {/* Quick stats on Header */}
+              {selectedAppId === null && (
+                <div className="hidden md:flex items-center space-x-6">
+                  <div className="text-right">
+                    <p className="text-xs text-slate-400">Average Match</p>
+                    <p className="text-sm font-heading font-bold text-slate-200">
+                      {apps.length > 0 
+                        ? `${Math.round(apps.reduce((sum, item) => sum + item.match_score, 0) / apps.length)}%` 
+                        : 'N/A'}
+                    </p>
+                  </div>
+                  <div className="h-6 w-px bg-slate-800"></div>
+                  <div className="text-right">
+                    <p className="text-xs text-slate-400">Total Workspaces</p>
+                    <p className="text-sm font-heading font-bold text-slate-200">{apps.length}</p>
+                  </div>
+                </div>
+              )}
+
+              {selectedAppId !== null && (
+                <div className="flex items-center space-x-2 text-xs sm:text-sm">
+                  <button 
+                    onClick={() => setSelectedAppId(null)}
+                    className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/50 hover:bg-slate-900 text-slate-300 transition-colors"
+                  >
+                    <Icons.ChevronLeft className="w-4 h-4" />
+                    <span>Back to Dashboard</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </header>
+
+          {/* Main workspace container */}
+          <main className="flex-grow flex flex-col">
+            {selectedAppId === null ? (
+              <Dashboard 
+                apps={apps}
+                onSelectApp={setSelectedAppId}
+                onOpenNewAppModal={() => setShowNewAppModal(true)}
+                onDeleteApp={handleDeleteApp}
+              />
+            ) : (
+              <Workspace 
+                application={selectedApp}
+                currentTab={currentTab}
+                onChangeTab={(tab) => {
+                  setCurrentTab(tab);
+                  setActiveInterview(null); // Reset mock interview when shifting tabs
+                }}
+                onUpdateStatus={handleUpdateStatus}
+                onSaveNotes={handleSaveNotes}
+                activeInterview={activeInterview}
+                onStartInterview={setActiveInterview}
+              />
+            )}
+          </main>
+
+          {/* New Application Modal */}
+          {showNewAppModal && (
+            <NewApplicationModal 
+              onClose={() => setShowNewAppModal(false)}
+              onSubmit={handleAddApplication}
+            />
+          )}
+
+          {/* Footer */}
+          <footer className="border-t border-slate-900 bg-dark-950 py-6 text-center text-xs text-slate-600">
+            <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>© 2026 Career Copilot. Empowering candidates with Gemini Intelligence.</div>
+              <div className="flex space-x-4">
+                <a href="#" className="hover:text-slate-400 transition-colors">Privacy Policy</a>
+                <a href="#" className="hover:text-slate-400 transition-colors">Terms of Service</a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // DASHBOARD COMPONENT
+    // ==========================================
+    function Dashboard({ apps, onSelectApp, onOpenNewAppModal, onDeleteApp }) {
+      const [searchQuery, setSearchQuery] = useState("");
+      const [statusFilter, setStatusFilter] = useState("All");
+
+      // Filter applications
+      const filteredApps = apps.filter(app => {
+        const matchesSearch = app.company.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              app.role.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesStatus = statusFilter === "All" || app.status === statusFilter;
+        return matchesSearch && matchesStatus;
+      });
+
+      const getStatusStyle = (status) => {
+        switch (status) {
+          case "Saved": return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+          case "Applied": return "bg-sky-500/10 text-sky-400 border-sky-500/20";
+          case "Assessment": return "bg-amber-500/10 text-amber-400 border-amber-500/20";
+          case "Interview": case "Interviewing": return "bg-indigo-500/10 text-indigo-400 border-indigo-500/20";
+          case "Selected": case "Offered": return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+          case "Rejected": return "bg-rose-500/10 text-rose-400 border-rose-500/20";
+          default: return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+        }
+      };
+
+      // Calculate aggregated metrics
+      const totalCount = apps.length;
+      const averageMatch = totalCount > 0 
+        ? Math.round(apps.reduce((sum, current) => sum + current.match_score, 0) / totalCount)
+        : 0;
+      const activeInterviews = apps.filter(a => a.status === "Interview" || a.status === "Interviewing").length;
+
+      return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+          {/* Hero Section */}
+          <div className="mb-10 text-center md:text-left md:flex md:items-center md:justify-between border-b border-slate-900 pb-8">
+            <div>
+              <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
+                Welcome to your <span className="gradient-text font-extrabold">Career Workspace</span>
+              </h1>
+              <p className="mt-2 text-slate-400 max-w-2xl text-sm sm:text-base">
+                Track job applications, review AI match scores, practice hyper-personalized mock interviews, and master missing skills in one premium hub.
+              </p>
+            </div>
+            <div className="mt-5 md:mt-0">
+              <button 
+                onClick={onOpenNewAppModal}
+                className="gradient-border-btn px-5 py-3 text-sm font-semibold text-white flex items-center justify-center space-x-2 w-full md:w-auto shadow-lg shadow-indigo-500/10"
+              >
+                <Icons.Plus className="w-5 h-5 text-white" />
+                <span>New Application Workspace</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Stats Bar */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+            <div className="glass-card rounded-2xl p-6 flex items-center space-x-4 border-slate-800">
+              <div className="p-3 bg-primary-500/10 rounded-xl border border-primary-500/20">
+                <Icons.Briefcase className="w-6 h-6 text-primary-400" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Job Workspaces</p>
+                <p className="text-2xl font-heading font-bold text-white mt-1">{totalCount}</p>
+              </div>
+            </div>
+
+            <div className="glass-card rounded-2xl p-6 flex items-center space-x-4 border-slate-800">
+              <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                <Icons.Award className="w-6 h-6 text-emerald-400" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Average ATS Match</p>
+                <div className="flex items-baseline space-x-1 mt-1">
+                  <p className="text-2xl font-heading font-bold text-white">{averageMatch}%</p>
+                  <span className="text-xs text-emerald-400 flex items-center font-medium">
+                    <Icons.TrendingUp className="w-3.5 h-3.5 mr-0.5" /> Optimal
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card rounded-2xl p-6 flex items-center space-x-4 border-slate-800">
+              <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/20">
+                <Icons.Users className="w-6 h-6 text-indigo-400" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Active Interview Prep</p>
+                <p className="text-2xl font-heading font-bold text-white mt-1">{activeInterviews} Roles</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Search & Filter */}
+          <div className="glass-card rounded-xl p-4 border-slate-900 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="relative flex-grow max-w-md">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                <Icons.Search className="w-5 h-5" />
+              </span>
+              <input
+                type="text"
+                placeholder="Search by company or role..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-slate-900/60 border border-slate-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors"
+              />
+            </div>
+
+            <div className="flex items-center space-x-2 self-start md:self-auto overflow-x-auto pb-1 md:pb-0 max-w-full">
+              <span className="text-xs text-slate-400 whitespace-nowrap font-medium">Filter Status:</span>
+              {["All", "Saved", "Applied", "Assessment", "Interview", "Selected", "Rejected"].map(status => (
+                <button
+                  key={status}
+                  onClick={() => setStatusFilter(status)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all whitespace-nowrap ${
+                    statusFilter === status 
+                      ? "bg-primary-600 border-primary-500 text-white shadow-md shadow-primary-500/10" 
+                      : "bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Workspace cards grid */}
+          {filteredApps.length === 0 ? (
+            <div className="glass-card rounded-2xl py-16 px-4 text-center border-slate-900 border-dashed border-2 flex flex-col items-center">
+              <div className="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mb-4">
+                <Icons.Briefcase className="w-8 h-8 text-slate-500" />
+              </div>
+              <h3 className="font-heading font-semibold text-lg text-slate-200">No application workspaces found</h3>
+              <p className="text-sm text-slate-500 mt-1 max-w-md">
+                {searchQuery || statusFilter !== "All"
+                  ? "Try adjusting your search queries or clearing active status filters to find matching items."
+                  : "Start by creating a job workspace to analyze your resume and get custom interview questions."}
+              </p>
+              {(searchQuery || statusFilter !== "All") && (
+                <button 
+                  onClick={() => { setSearchQuery(""); setStatusFilter("All"); }}
+                  className="mt-4 px-4 py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:bg-slate-850"
+                >
+                  Clear Filters
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredApps.map(app => (
+                <div 
+                  key={app.id}
+                  onClick={() => onSelectApp(app.id)}
+                  className="glass-card rounded-2xl p-6 border-slate-800/80 cursor-pointer flex flex-col h-full glass-card-hover relative group overflow-hidden"
+                >
+                  {/* Glowing background card element */}
+                  <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary-600/5 rounded-full blur-3xl group-hover:bg-primary-600/10 transition-colors"></div>
+
+                  <div className="flex items-start justify-between mb-4">
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusStyle(app.status)}`}>
+                      {app.status}
+                    </span>
+                    <button 
+                      onClick={(e) => onDeleteApp(app.id, e)}
+                      className="text-slate-600 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-900/80 transition-colors"
+                      title="Delete workspace"
+                    >
+                      <Icons.Trash className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <h3 className="font-heading font-bold text-lg text-white group-hover:text-primary-300 transition-colors line-clamp-1">
+                    {app.company}
+                  </h3>
+                  <p className="text-sm text-slate-400 font-medium mt-0.5 line-clamp-1">
+                    {app.role}
+                  </p>
+
+                  {/* Match score progress indicator */}
+                  <div className="mt-8 flex items-center justify-between border-t border-slate-900/60 pt-4">
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wider font-semibold text-slate-500">ATS Match Score</p>
+                      <p className="text-2xl font-heading font-extrabold text-slate-100 mt-0.5">
+                        {app.match_score}%
+                      </p>
+                    </div>
+                    {/* Visual circular meter */}
+                    <div className="relative w-12 h-12 flex items-center justify-center">
+                      <svg className="w-full h-full transform -rotate-90">
+                        <circle 
+                          cx="24" cy="24" r="20"
+                          stroke="rgba(30, 41, 59, 0.5)" 
+                          strokeWidth="4" 
+                          fill="transparent" 
+                        />
+                        <circle 
+                          cx="24" cy="24" r="20"
+                          stroke={app.match_score >= 80 ? "#10b981" : app.match_score >= 70 ? "#f59e0b" : "#8b5cf6"} 
+                          strokeWidth="4" 
+                          fill="transparent"
+                          strokeDasharray={125.6}
+                          strokeDashoffset={125.6 - (125.6 * app.match_score) / 100}
+                          className="transition-all duration-1000 ease-out"
+                        />
+                      </svg>
+                      <span className="absolute text-[10px] font-heading font-semibold text-slate-400">
+                        Match
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Subtle hover indicator */}
+                  <div className="mt-4 flex items-center space-x-1.5 text-xs text-primary-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity mt-auto">
+                    <span>Enter Workspace</span>
+                    <span>→</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // NEW APPLICATION MODAL
+    // ==========================================
+    function NewApplicationModal({ onClose, onSubmit }) {
+      const [company, setCompany] = useState("");
+      const [role, setRole] = useState("");
+      const [resumeFile, setResumeFile] = useState(null);
+      const [jdText, setJdText] = useState("");
+      const [dragActive, setDragActive] = useState(false);
+      const [isAnalyzing, setIsAnalyzing] = useState(false);
+      const [analysisProgress, setAnalysisProgress] = useState(0);
+      const [analysisStep, setAnalysisStep] = useState("");
+
+      const handleDrag = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.type === "dragenter" || e.type === "dragover") {
+          setDragActive(true);
+        } else if (e.type === "dragleave") {
+          setDragActive(false);
+        }
+      };
+
+      const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          setResumeFile(e.dataTransfer.files[0]);
+        }
+      };
+
+      const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          setResumeFile(e.target.files[0]);
+        }
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!company || !role || !resumeFile || !jdText) {
+          alert("Please fill in all the required fields and upload a PDF resume.");
+          return;
+        }
+
+        setIsAnalyzing(true);
+        setAnalysisStep("Extracting and parsing text from resume...");
+        setAnalysisProgress(15);
+
+        // Simulation of analysis steps
+        setTimeout(() => {
+          setAnalysisStep("Analyzing ATS keyword matches...");
+          setAnalysisProgress(45);
+        }, 1000);
+
+        setTimeout(() => {
+          setAnalysisStep("Generating personalized missing skills roadmap...");
+          setAnalysisProgress(75);
+        }, 2000);
+
+        setTimeout(() => {
+          setAnalysisStep("Compiling structured interview preparation questions...");
+          setAnalysisProgress(95);
+        }, 3000);
+
+        setTimeout(() => {
+          onSubmit({
+            company,
+            role,
+            resume_filename: resumeFile.name,
+            jd_text: jdText,
+          });
+          setIsAnalyzing(false);
+          onClose();
+        }, 3800);
+      };
+
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 overflow-y-auto">
+          {/* Backdrop blur */}
+          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onClick={onClose}></div>
+          
+          <div className="glass-card rounded-2xl border-slate-800 max-w-2xl w-full p-6 sm:p-8 z-10 relative overflow-hidden shadow-2xl">
+            {isAnalyzing ? (
+              <div className="py-12 flex flex-col items-center justify-center text-center">
+                <div className="relative w-24 h-24 mb-6">
+                  {/* Glowing spinner */}
+                  <div className="absolute inset-0 border-4 border-slate-900 rounded-full"></div>
+                  <div className="absolute inset-0 border-4 border-primary-500 rounded-full border-t-transparent animate-spin"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Icons.Sparkles className="w-8 h-8 text-primary-400 animate-pulse-subtle" />
+                  </div>
+                </div>
+                <h3 className="font-heading font-bold text-xl text-white">Analyzing Profile</h3>
+                <p className="text-sm text-slate-400 mt-2 max-w-sm h-12 transition-all duration-300">
+                  {analysisStep}
+                </p>
+                <div className="w-full bg-slate-900 rounded-full h-2.5 mt-6 max-w-md overflow-hidden border border-slate-800">
+                  <div 
+                    className="bg-gradient-to-r from-primary-500 to-indigo-500 h-2.5 rounded-full transition-all duration-500 ease-out" 
+                    style={{ width: `${analysisProgress}%` }}
+                  ></div>
+                </div>
+                <span className="text-xs text-slate-500 mt-2 font-medium">{analysisProgress}% Complete</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="flex items-center justify-between border-b border-slate-900 pb-4">
+                  <div>
+                    <h2 className="font-heading font-extrabold text-xl text-white">Create Job Application Workspace</h2>
+                    <p className="text-xs text-slate-400 mt-1">Upload resume and job description to compare match profiles.</p>
+                  </div>
+                  <button 
+                    type="button" 
+                    onClick={onClose}
+                    className="text-slate-500 hover:text-slate-300 p-1 rounded-lg hover:bg-slate-900 transition-colors"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Company Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. OpenAI, Stripe"
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                      className="w-full bg-slate-900/60 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Job Role *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Full Stack Engineer"
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                      className="w-full bg-slate-900/60 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-primary-500"
+                    />
+                  </div>
+                </div>
+
+                {/* File Upload drag and drop */}
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Upload Resume (PDF only) *</label>
+                  <div
+                    onDragEnter={handleDrag}
+                    onDragOver={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDrop={handleDrop}
+                    className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-300 ${
+                      dragActive 
+                        ? "border-primary-500 bg-primary-500/5" 
+                        : resumeFile 
+                          ? "border-emerald-500/50 bg-emerald-500/5" 
+                          : "border-slate-800 hover:border-slate-700 bg-slate-900/30"
+                    }`}
+                  >
+                    <input
+                      type="file"
+                      id="resume-file-input"
+                      accept=".pdf"
+                      required
+                      className="hidden"
+                      onChange={handleFileChange}
+                    />
+                    <label htmlFor="resume-file-input" className="cursor-pointer flex flex-col items-center">
+                      {resumeFile ? (
+                        <>
+                          <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-3">
+                            <Icons.CheckCircle className="w-6 h-6 text-emerald-400" />
+                          </div>
+                          <span className="text-sm font-semibold text-slate-200">{resumeFile.name}</span>
+                          <span className="text-xs text-slate-400 mt-1">
+                            File selected ({(resumeFile.size / 1024 / 1024).toFixed(2)} MB). Click to change.
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mb-3">
+                            <Icons.UploadCloud className="w-6 h-6 text-slate-400" />
+                          </div>
+                          <span className="text-sm font-semibold text-slate-300">Drag & drop your PDF resume here</span>
+                          <span className="text-xs text-slate-500 mt-1">or click to browse from device files</span>
+                        </>
+                      )}
+                    </label>
+                  </div>
+                </div>
+
+                {/* Job description textbox */}
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Job Description *</label>
+                  <textarea
+                    required
+                    rows="5"
+                    placeholder="Paste the full job description text here to run keyword comparison analysis..."
+                    value={jdText}
+                    onChange={(e) => setJdText(e.target.value)}
+                    className="w-full bg-slate-900/60 border border-slate-800 rounded-lg p-4 text-sm text-slate-100 focus:outline-none focus:border-primary-500 placeholder-slate-600 font-sans"
+                  ></textarea>
+                </div>
+
+                <div className="flex justify-end space-x-3 border-t border-slate-900 pt-5">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-4 py-2.5 rounded-lg border border-slate-800 text-xs font-semibold text-slate-400 hover:text-slate-200 bg-slate-900 hover:bg-slate-850"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="gradient-border-btn px-5 py-2.5 text-xs font-semibold text-white flex items-center space-x-1.5 shadow-md shadow-indigo-500/10"
+                  >
+                    <Icons.Sparkles className="w-4 h-4 text-white" />
+                    <span>Analyze Profile & Create Workspace</span>
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // WORKSPACE COMPONENT
+    // ==========================================
+    function Workspace({ 
+      application, 
+      currentTab, 
+      onChangeTab, 
+      onUpdateStatus, 
+      onSaveNotes, 
+      activeInterview, 
+      onStartInterview 
+    }) {
+      const getStatusStyle = (status) => {
+        switch (status) {
+          case "Saved": return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+          case "Applied": return "bg-sky-500/10 text-sky-400 border-sky-500/20";
+          case "Assessment": return "bg-amber-500/10 text-amber-400 border-amber-500/20";
+          case "Interview": case "Interviewing": return "bg-indigo-500/10 text-indigo-400 border-indigo-500/20";
+          case "Selected": case "Offered": return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+          case "Rejected": return "bg-rose-500/10 text-rose-400 border-rose-500/20";
+          default: return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+        }
+      };
+
+      return (
+        <div className="flex-grow flex flex-col md:flex-row h-full">
+          {/* Workspace Left Navigation Sidebar */}
+          <aside className="w-full md:w-64 border-b md:border-b-0 md:border-r border-slate-900 bg-slate-950 flex flex-col">
+            {/* Header in sidebar */}
+            <div className="p-6 border-b border-slate-900 bg-slate-900/10">
+              <h2 className="font-heading font-extrabold text-lg text-white truncate">{application.company}</h2>
+              <p className="text-xs text-slate-400 font-medium truncate mt-0.5">{application.role}</p>
+              <div className="mt-3 flex items-center space-x-2">
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${getStatusStyle(application.status)}`}>
+                  {application.status}
+                </span>
+                <span className="text-[10px] text-slate-500 font-semibold">{application.match_score}% Match</span>
+              </div>
+            </div>
+
+            {/* Sidebar list items */}
+            <nav className="flex-grow p-4 space-y-1 overflow-y-auto">
+              {[
+                { id: "overview", label: "Overview", icon: Icons.Award },
+                { id: "resume", label: "Resume", icon: Icons.FileText },
+                { id: "jd", label: "Job Description", icon: Icons.Briefcase },
+                { id: "learning", label: "Learning Hub", icon: Icons.BookOpen },
+                { id: "interview", label: "Interview Prep", icon: Icons.Users },
+                { id: "coach", label: "AI Coach", icon: Icons.Sparkles },
+                { id: "notes", label: "Notes", icon: Icons.Edit3 }
+              ].map(tab => {
+                const TabIcon = tab.icon;
+                const isSelected = currentTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => onChangeTab(tab.id)}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                      isSelected 
+                        ? "bg-primary-600/15 text-primary-400 border border-primary-500/10 shadow-sm" 
+                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 border border-transparent"
+                    }`}
+                  >
+                    <TabIcon className={`w-4 h-4 ${isSelected ? "text-primary-400" : "text-slate-500"}`} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </aside>
+
+          {/* Right Workspace Content Area */}
+          <section className="flex-grow bg-dark-950/40 p-6 sm:p-8 overflow-y-auto max-w-7xl">
+            {currentTab === "overview" && (
+              <OverviewTab 
+                application={application} 
+                onUpdateStatus={onUpdateStatus}
+                getStatusStyle={getStatusStyle}
+              />
+            )}
+            
+            {currentTab === "resume" && (
+              <ResumeTab application={application} />
+            )}
+
+            {currentTab === "jd" && (
+              <JobDescriptionTab application={application} />
+            )}
+
+            {currentTab === "learning" && (
+              <LearningHubTab application={application} />
+            )}
+
+            {currentTab === "interview" && (
+              <InterviewPrepTab 
+                application={application} 
+                activeInterview={activeInterview}
+                onStartInterview={onStartInterview}
+              />
+            )}
+
+            {currentTab === "coach" && (
+              <AICoachTab application={application} />
+            )}
+
+            {currentTab === "notes" && (
+              <NotesTab 
+                application={application} 
+                onSaveNotes={onSaveNotes}
+              />
+            )}
+          </section>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // OVERVIEW TAB
+    // ==========================================
+    function OverviewTab({ application, onUpdateStatus, getStatusStyle }) {
+      const [status, setStatus] = useState(application.status);
+      const [showSavedMsg, setShowSavedMsg] = useState(false);
+      
+      const handleSave = () => {
+        onUpdateStatus(application.id, status);
+        setShowSavedMsg(true);
+        setTimeout(() => setShowSavedMsg(false), 3000);
+      };
+
+      const getCircularProgressColor = (score) => {
+        if (score >= 80) return "text-emerald-500";
+        if (score >= 70) return "text-amber-500";
+        return "text-primary-500";
+      };
+
+      return (
+        <div className="space-y-8 animate-fadeIn">
+          {/* Header */}
+          <div>
+            <h2 className="font-heading font-extrabold text-2xl text-white">Application Analysis Overview</h2>
+            <p className="text-xs text-slate-400 mt-1">Detailed analysis matching your credentials against job description keywords.</p>
+          </div>
+
+          {/* Metric cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Match score gauge */}
+            <div className="glass-card rounded-2xl p-6 border-slate-800 flex items-center justify-between col-span-1">
+              <div className="space-y-1">
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">ATS Score Match</p>
+                <p className="text-3xl font-heading font-extrabold text-white mt-1">{application.match_score}%</p>
+                <p className="text-xs text-slate-500 mt-1 font-medium">
+                  {application.match_score >= 80 ? "Excellent ATS match" : application.match_score >= 65 ? "Solid Match (Refine Resume)" : "Action Required"}
+                </p>
+              </div>
+              <div className="relative w-20 h-20 flex items-center justify-center">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle cx="40" cy="40" r="32" stroke="rgba(30, 41, 59, 0.4)" strokeWidth="6" fill="transparent" />
+                  <circle 
+                    cx="40" cy="40" r="32" 
+                    stroke={application.match_score >= 80 ? "#10b981" : application.match_score >= 70 ? "#f59e0b" : "#8b5cf6"} 
+                    strokeWidth="6" 
+                    fill="transparent"
+                    strokeDasharray={201}
+                    strokeDashoffset={201 - (201 * application.match_score) / 100}
+                  />
+                </svg>
+                <span className={`absolute font-heading font-bold text-sm ${getCircularProgressColor(application.match_score)}`}>
+                  {application.match_score}%
+                </span>
+              </div>
+            </div>
+
+            {/* Status manager */}
+            <div className="glass-card rounded-2xl p-6 border-slate-800 col-span-1 lg:col-span-2 flex flex-col justify-between">
+              <div>
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-2">Pipeline Status</p>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <select 
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded-lg px-4 py-2.5 text-sm font-semibold text-slate-100 focus:outline-none focus:border-primary-500 flex-grow"
+                  >
+                    {["Saved", "Applied", "Assessment", "Interviewing", "Offered", "Rejected"].map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                  <button 
+                    onClick={handleSave}
+                    className="bg-primary-600 hover:bg-primary-700 text-xs text-white font-bold px-4 py-2.5 rounded-lg border border-primary-500 shadow-lg shadow-primary-500/10 transition-colors"
+                  >
+                    Update Status
+                  </button>
+                </div>
+              </div>
+              <div className="mt-2 h-4">
+                {showSavedMsg && (
+                  <span className="text-[10px] text-emerald-400 font-bold flex items-center">
+                    ✓ Status updated to '{status}' successfully!
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Strengths & Missing skills tags */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="glass-card rounded-2xl p-6 border-slate-800">
+              <h3 className="font-heading font-bold text-sm text-slate-200 uppercase tracking-wider mb-4 flex items-center">
+                <Icons.CheckCircle className="w-5 h-5 text-emerald-400 mr-2" />
+                <span>Verified Strengths ({application.strengths.length})</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {application.strengths.map(skill => (
+                  <span key={skill} className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/5 text-emerald-400 border border-emerald-500/10 flex items-center">
+                    <Icons.Check className="w-3.5 h-3.5 mr-1 text-emerald-400" />
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="glass-card rounded-2xl p-6 border-slate-800">
+              <h3 className="font-heading font-bold text-sm text-slate-200 uppercase tracking-wider mb-4 flex items-center">
+                <Icons.AlertCircle className="w-5 h-5 text-rose-400 mr-2" />
+                <span>Missing Skills ({application.missing_skills.length})</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {application.missing_skills.map(skill => (
+                  <span key={skill} className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/5 text-rose-400 border border-rose-500/10 flex items-center">
+                    ✕ {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Resume Improvements Checklist */}
+          <div className="glass-card rounded-2xl p-6 border-slate-800">
+            <h3 className="font-heading font-bold text-sm text-slate-200 uppercase tracking-wider mb-4 flex items-center">
+              <Icons.Lightbulb className="w-5 h-5 text-amber-400 mr-2" />
+              <span>Recommended Resume Improvements</span>
+            </h3>
+            
+            <div className="space-y-3">
+              {application.resume_improvements.map((improvement, index) => (
+                <div key={index} className="flex items-start bg-slate-900/30 hover:bg-slate-900/60 p-4 rounded-xl border border-slate-900 transition-colors">
+                  <div className="mt-0.5 mr-3 flex items-center justify-center w-5 h-5 rounded-md border border-slate-700 bg-slate-950 text-slate-600 hover:text-emerald-400 hover:border-emerald-500 cursor-pointer">
+                    {/* Tick box simulation */}
+                    <input type="checkbox" className="opacity-0 absolute cursor-pointer" />
+                    <Icons.Check className="w-3 h-3 opacity-0 hover:opacity-100" />
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-medium">{improvement}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // RESUME TAB
+    // ==========================================
+    function ResumeTab({ application }) {
+      const [isParsing, setIsParsing] = useState(false);
+      const [parsingFinished, setParsingFinished] = useState(true);
+
+      const triggerReparse = () => {
+        setIsParsing(true);
+        setParsingFinished(false);
+        setTimeout(() => {
+          setIsParsing(false);
+          setParsingFinished(true);
+        }, 2500);
+      };
+
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Header */}
+          <div>
+            <h2 className="font-heading font-extrabold text-2xl text-white">Parsed Resume Profile</h2>
+            <p className="text-xs text-slate-400 mt-1">Uploaded resume file information and ATS indexing meta logs.</p>
+          </div>
+
+          <div className="glass-card rounded-2xl p-8 border-slate-800 flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-400 rounded-2xl flex items-center justify-center mb-4">
+              <Icons.FileText className="w-8 h-8" />
+            </div>
+            
+            <h3 className="font-heading font-bold text-lg text-slate-200">
+              {application.resume_filename}
+            </h3>
+            <p className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">
+              PDF Document • 2.4 MB • Indexed on May 26, 2026
+            </p>
+
+            {/* Checklists for Metadata */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 w-full max-w-lg text-left">
+              <div className="bg-slate-900/40 p-4 rounded-xl border border-slate-900/60">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">ATS Extraction Status</p>
+                <div className="flex items-center space-x-2 mt-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                  <span className="text-sm font-semibold text-slate-200">SUCCESS</span>
+                </div>
+              </div>
+              <div className="bg-slate-900/40 p-4 rounded-xl border border-slate-900/60">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Indexed Workplaces</p>
+                <p className="text-sm font-semibold text-slate-200 mt-2">3 Positions (2023 - 2027)</p>
+              </div>
+            </div>
+
+            {/* Quick warning to fulfill layout constraints */}
+            <div className="mt-8 bg-amber-500/5 border border-amber-500/10 rounded-xl p-4 max-w-lg text-left flex items-start">
+              <Icons.AlertCircle className="w-5 h-5 text-amber-500 mr-3 mt-0.5 flex-shrink-0" />
+              <p className="text-xs text-slate-400 leading-relaxed">
+                <strong className="text-slate-300 font-semibold">Security Note:</strong> Raw extracted resume text is hidden in compliance with corporate candidate privacy filters. Only parser analysis outputs (skills & strengths) are exposed in the workspace views.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 mt-8">
+              <button 
+                onClick={triggerReparse}
+                disabled={isParsing}
+                className="px-5 py-2.5 rounded-lg border border-slate-800 bg-slate-900 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-850 transition-colors disabled:opacity-50"
+              >
+                {isParsing ? "Re-parsing Document..." : "Trigger Re-parse"}
+              </button>
+              <button 
+                onClick={() => alert("Simulation: Downloading resume " + application.resume_filename)}
+                className="bg-primary-600 hover:bg-primary-700 border border-primary-500 text-xs font-bold text-white px-5 py-2.5 rounded-lg flex items-center shadow-lg shadow-primary-500/10 transition-colors"
+              >
+                <Icons.Download className="w-4 h-4 mr-1.5" />
+                Download Original File
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // JOB DESCRIPTION TAB
+    // ==========================================
+    function JobDescriptionTab({ application }) {
+      const [copied, setCopied] = useState(false);
+
+      const handleCopy = () => {
+        navigator.clipboard.writeText(application.jd_text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      };
+
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-heading font-extrabold text-2xl text-white">Target Job Description</h2>
+              <p className="text-xs text-slate-400 mt-1 font-medium">Original job role overview and requirements used for profile mapping.</p>
+            </div>
+            <button 
+              onClick={handleCopy}
+              className="px-4 py-2 rounded-lg border border-slate-850 bg-slate-900/80 hover:bg-slate-900 text-xs font-semibold text-slate-300 flex items-center transition-all"
+            >
+              {copied ? (
+                <>
+                  <Icons.Check className="w-4 h-4 text-emerald-400 mr-1.5" />
+                  <span>Copied!</span>
+                </>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4 mr-1.5 text-slate-500">
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                  </svg>
+                  <span>Copy Text</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          <div className="glass-card rounded-2xl border-slate-800 overflow-hidden">
+            <div className="bg-slate-950/40 p-4 border-b border-slate-900/60 flex items-center justify-between">
+              <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Document Viewer</span>
+              <span className="w-3.5 h-3.5 rounded-full bg-emerald-500"></span>
+            </div>
+            <div className="p-6 font-mono text-sm leading-relaxed text-slate-300 max-h-[480px] overflow-y-auto whitespace-pre-line bg-slate-900/20 font-sans">
+              {application.jd_text}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // LEARNING HUB TAB
+    // ==========================================
+    function LearningHubTab({ application }) {
+      const roadmap = application.learning_path.roadmap || [];
+
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Header */}
+          <div>
+            <h2 className="font-heading font-extrabold text-2xl text-white">Missing Skills Learning Hub</h2>
+            <p className="text-xs text-slate-400 mt-1 font-medium">Personalized roadmaps, courses, and practice assignments designed to bridge your ATS skill gaps.</p>
+          </div>
+
+          {roadmap.length === 0 ? (
+            <div className="glass-card rounded-2xl py-12 px-4 text-center border-slate-900 border-dashed border-2 flex flex-col items-center">
+              <Icons.CheckCircle className="w-12 h-12 text-emerald-400 mb-3" />
+              <h3 className="font-heading font-semibold text-lg text-slate-200">No missing skills detected!</h3>
+              <p className="text-sm text-slate-500 mt-1 max-w-sm">
+                Congratulations, your profile perfectly aligns with all mandatory skills indexed in this job description.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              {roadmap.map((item, idx) => (
+                <div key={idx} className="glass-card rounded-2xl border-slate-800 flex flex-col h-full overflow-hidden">
+                  {/* Skill header */}
+                  <div className="bg-gradient-to-r from-slate-950 to-slate-900/60 p-5 border-b border-slate-900/80 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-primary-400 font-bold uppercase tracking-wider">Skill Bridge Roadmap</span>
+                      <h3 className="font-heading font-bold text-lg text-white mt-0.5">{item.skill}</h3>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary-600/10 text-primary-400 border border-primary-500/10">
+                      Active
+                    </span>
+                  </div>
+
+                  <div className="p-6 space-y-6 flex-grow flex flex-col">
+                    {/* Topics Checklist */}
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center">
+                        <Icons.Checklist className="w-4 h-4 mr-1.5 text-primary-400" />
+                        Key Topics to Cover
+                      </h4>
+                      <ul className="space-y-2 bg-slate-900/20 p-4 rounded-xl border border-slate-900">
+                        {item.topics.map((topic, index) => (
+                          <li key={index} className="flex items-start text-xs text-slate-300 font-medium">
+                            <input 
+                              type="checkbox" 
+                              className="mt-0.5 mr-2 rounded border-slate-700 text-primary-600 focus:ring-primary-500 focus:ring-offset-slate-900 bg-slate-950 cursor-pointer"
+                            />
+                            <span>{topic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Resources */}
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center">
+                        <Icons.BookOpen className="w-4 h-4 mr-1.5 text-primary-400" />
+                        Selected Resources
+                      </h4>
+                      <ul className="space-y-2">
+                        {item.resources.map((res, index) => (
+                          <li key={index} className="flex items-center text-xs text-slate-400 hover:text-slate-200 transition-colors">
+                            <span className="mr-2 text-primary-400 font-bold">•</span>
+                            <span className="cursor-pointer underline truncate">{res}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Practice Project */}
+                    <div className="mt-auto bg-primary-950/20 p-4 rounded-xl border border-primary-500/5">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider mb-2 flex items-center">
+                        <Icons.Sparkles className="w-4 h-4 mr-1.5" />
+                        Practice Project Assignment
+                      </h4>
+                      <p className="text-xs leading-relaxed text-slate-300 font-medium">
+                        {item.project}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // INTERVIEW PREP TAB
+    // ==========================================
+    function InterviewPrepTab({ application, activeInterview, onStartInterview }) {
+      const prep = application.interview_prep;
+
+      return (
+        <div className="space-y-8 animate-fadeIn">
+          {/* Header */}
+          <div>
+            <h2 className="font-heading font-extrabold text-2xl text-white">Interview Preparation Kit</h2>
+            <p className="text-xs text-slate-400 mt-1">Practice high-probability questions and start mock session simulations tailored to your experience gaps.</p>
+          </div>
+
+          {activeInterview ? (
+            <MockInterviewSimulator 
+              interviewType={activeInterview} 
+              questions={
+                activeInterview === "Technical" 
+                  ? prep.technical_questions 
+                  : activeInterview === "HR" 
+                    ? prep.hr_questions 
+                    : prep.project_questions
+              }
+              onBack={() => onStartInterview(null)}
+            />
+          ) : (
+            <div className="space-y-8">
+              {/* Three Pillars columns */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                {/* Technical Panel */}
+                <div className="glass-card rounded-2xl p-6 border-slate-800 flex flex-col h-full">
+                  <div className="flex items-center justify-between pb-4 border-b border-slate-900/60 mb-5">
+                    <div>
+                      <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">Engineering Focus</span>
+                      <h3 className="font-heading font-bold text-lg text-white mt-0.5">Technical Prep</h3>
+                    </div>
+                    <span className="p-2 bg-cyan-500/10 rounded-xl text-cyan-400 border border-cyan-500/20">
+                      <Icons.FileText className="w-5 h-5" />
+                    </span>
+                  </div>
+
+                  <div className="space-y-5 flex-grow">
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Focus Topics</h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {prep.technical_topics.map(t => (
+                          <span key={t} className="px-2 py-1 bg-slate-900 rounded-md text-[10px] text-slate-400 font-semibold border border-slate-850">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Likely Questions</h4>
+                      <ul className="space-y-2">
+                        {prep.technical_questions.slice(0, 3).map((q, idx) => (
+                          <li key={idx} className="text-xs text-slate-300 leading-relaxed font-medium bg-slate-900/30 p-2.5 rounded-lg border border-slate-900/80 line-clamp-2">
+                            "{q}"
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => onStartInterview("Technical")}
+                    className="mt-6 w-full py-2.5 bg-cyan-600 hover:bg-cyan-700 text-xs font-bold text-white rounded-lg flex items-center justify-center space-x-1.5 shadow-lg shadow-cyan-500/10 border border-cyan-500 transition-all"
+                  >
+                    <Icons.Play className="w-4 h-4 text-white" />
+                    <span>Start Technical Mock Interview</span>
+                  </button>
+                </div>
+
+                {/* HR Panel */}
+                <div className="glass-card rounded-2xl p-6 border-slate-800 flex flex-col h-full">
+                  <div className="flex items-center justify-between pb-4 border-b border-slate-900/60 mb-5">
+                    <div>
+                      <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Culture Fit</span>
+                      <h3 className="font-heading font-bold text-lg text-white mt-0.5">HR Interview</h3>
+                    </div>
+                    <span className="p-2 bg-amber-500/10 rounded-xl text-amber-400 border border-amber-500/20">
+                      <Icons.Users className="w-5 h-5" />
+                    </span>
+                  </div>
+
+                  <div className="space-y-5 flex-grow">
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Focus Topics</h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {prep.hr_topics.map(t => (
+                          <span key={t} className="px-2 py-1 bg-slate-900 rounded-md text-[10px] text-slate-400 font-semibold border border-slate-850">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Likely Questions</h4>
+                      <ul className="space-y-2">
+                        {prep.hr_questions.slice(0, 3).map((q, idx) => (
+                          <li key={idx} className="text-xs text-slate-300 leading-relaxed font-medium bg-slate-900/30 p-2.5 rounded-lg border border-slate-900/80 line-clamp-2">
+                            "{q}"
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => onStartInterview("HR")}
+                    className="mt-6 w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-xs font-bold text-white rounded-lg flex items-center justify-center space-x-1.5 shadow-lg shadow-amber-500/10 border border-amber-500 transition-all"
+                  >
+                    <Icons.Play className="w-4 h-4 text-white" />
+                    <span>Start HR Mock Interview</span>
+                  </button>
+                </div>
+
+                {/* Project Discussion Panel */}
+                <div className="glass-card rounded-2xl p-6 border-slate-800 flex flex-col h-full">
+                  <div className="flex items-center justify-between pb-4 border-b border-slate-900/60 mb-5">
+                    <div>
+                      <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-wider">Experience Deep-dive</span>
+                      <h3 className="font-heading font-bold text-lg text-white mt-0.5">Project Discussion</h3>
+                    </div>
+                    <span className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400 border border-indigo-500/20">
+                      <Icons.Briefcase className="w-5 h-5" />
+                    </span>
+                  </div>
+
+                  <div className="space-y-5 flex-grow">
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Experience focus</h4>
+                      <p className="text-xs leading-relaxed text-slate-400 font-semibold bg-slate-900/25 p-3 rounded-lg border border-slate-900">
+                        Focus will be centered on your personal projects mentioned in the parsed resume (e.g. ThermaSense, SkillTrack, Moodmentor).
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Likely Questions</h4>
+                      <ul className="space-y-2">
+                        {prep.project_questions.slice(0, 3).map((q, idx) => (
+                          <li key={idx} className="text-xs text-slate-300 leading-relaxed font-medium bg-slate-900/30 p-2.5 rounded-lg border border-slate-900/80 line-clamp-2">
+                            "{q}"
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => onStartInterview("Project")}
+                    className="mt-6 w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white rounded-lg flex items-center justify-center space-x-1.5 shadow-lg shadow-indigo-500/10 border border-indigo-500 transition-all"
+                  >
+                    <Icons.Play className="w-4 h-4 text-white" />
+                    <span>Start Project Mock Interview</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // MOCK INTERVIEW SIMULATOR
+    // ==========================================
+    function MockInterviewSimulator({ interviewType, questions = [], onBack }) {
+      const [qIndex, setQIndex] = useState(0);
+      const [answer, setAnswer] = useState("");
+      const [isEvaluating, setIsEvaluating] = useState(false);
+      const [evaluation, setEvaluation] = useState(null);
+
+      const currentQuestion = questions[qIndex] || "How do you handle technical debt?";
+
+      const handleSubmitAnswer = () => {
+        if (!answer.trim()) {
+          alert("Please type in an answer to evaluate.");
+          return;
+        }
+
+        setIsEvaluating(true);
+        setEvaluation(null);
+
+        // Simulated AI evaluation response delay
+        setTimeout(() => {
+          setIsEvaluating(false);
+          setEvaluation(mockEvaluationReport);
+        }, 2000);
+      };
+
+      const handleNextQuestion = () => {
+        setAnswer("");
+        setEvaluation(null);
+        if (qIndex < questions.length - 1) {
+          setQIndex(qIndex + 1);
+        } else {
+          alert("Excellent job! You have completed all mock interview questions for this track.");
+          onBack();
+        }
+      };
+
+      return (
+        <div className="glass-card rounded-2xl border-slate-800 overflow-hidden animate-fadeIn">
+          {/* Simulator Bar */}
+          <div className="bg-slate-950 p-4 border-b border-slate-900/80 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">{interviewType} MOCK SIMULATOR</span>
+            </div>
+            <button 
+              onClick={onBack}
+              className="text-xs text-slate-400 hover:text-slate-200 font-semibold flex items-center"
+            >
+              ← Terminate Session
+            </button>
+          </div>
+
+          <div className="p-6 sm:p-8 space-y-6">
+            {/* Progress indicator */}
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] text-slate-500 font-bold uppercase">Question {qIndex + 1} of {questions.length}</span>
+              <div className="w-32 bg-slate-900 rounded-full h-1.5 overflow-hidden border border-slate-850">
+                <div 
+                  className="bg-primary-500 h-1.5 rounded-full transition-all duration-300"
+                  style={{ width: `${((qIndex + 1) / questions.length) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Question card */}
+            <div className="bg-slate-900/40 p-5 rounded-xl border border-slate-900">
+              <p className="text-xs font-bold text-primary-400 uppercase tracking-wider">INTERVIEWER QUESTION:</p>
+              <p className="text-base sm:text-lg font-semibold text-white mt-1 leading-relaxed">
+                "{currentQuestion}"
+              </p>
+            </div>
+
+            {/* Response Area */}
+            {!evaluation && !isEvaluating && (
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Type your response below:</label>
+                  <textarea
+                    rows="6"
+                    placeholder="Provide a comprehensive response. Draw on your personal project accomplishments or work experiences..."
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl p-4 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-primary-500 leading-relaxed"
+                  ></textarea>
+                </div>
+                <div className="flex justify-end">
+                  <button 
+                    onClick={handleSubmitAnswer}
+                    className="bg-primary-600 hover:bg-primary-700 text-xs font-bold text-white px-5 py-2.5 rounded-lg border border-primary-500 shadow-lg shadow-primary-500/10 flex items-center space-x-1.5 transition-colors"
+                  >
+                    <span>Submit Answer for AI Evaluation</span>
+                    <span>→</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Evaluating State */}
+            {isEvaluating && (
+              <div className="py-10 flex flex-col items-center justify-center text-center">
+                <div className="flex space-x-1 mb-4">
+                  <div className="w-3 h-3 bg-primary-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+                  <div className="w-3 h-3 bg-primary-500 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></div>
+                  <div className="w-3 h-3 bg-primary-500 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+                </div>
+                <h3 className="font-heading font-semibold text-sm text-slate-300">Analyzing answer response patterns...</h3>
+                <p className="text-xs text-slate-500 mt-1">Gemini AI is parsing vocabulary, semantic matches, and structure coherence.</p>
+              </div>
+            )}
+
+            {/* Evaluation feedback report */}
+            {evaluation && (
+              <div className="space-y-6 bg-slate-900/20 p-6 rounded-xl border border-slate-900 animate-fadeIn">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-900 gap-4">
+                  <div className="flex items-center space-x-3">
+                    <span className="p-2.5 bg-emerald-500/10 rounded-xl text-emerald-400 border border-emerald-500/20">
+                      <Icons.Award className="w-5 h-5" />
+                    </span>
+                    <div>
+                      <h4 className="font-heading font-bold text-base text-slate-200">AI Evaluation Feedback</h4>
+                      <p className="text-[10px] text-slate-500 font-semibold uppercase">Keyword accuracy matching algorithms</p>
+                    </div>
+                  </div>
+                  <div className="flex items-baseline space-x-1 bg-slate-950 px-4 py-2 rounded-xl border border-slate-850">
+                    <span className="text-xs text-slate-500 font-semibold">SCORE:</span>
+                    <span className="text-lg font-heading font-extrabold text-emerald-400">{evaluation.score}</span>
+                    <span className="text-xs text-slate-500 font-semibold">/10</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h5 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-3 flex items-center">
+                      <Icons.CheckCircle className="w-4 h-4 mr-1.5" /> Strengths
+                    </h5>
+                    <ul className="space-y-2">
+                      {evaluation.strengths.map((s, i) => (
+                        <li key={i} className="text-xs text-slate-300 leading-relaxed font-medium bg-emerald-500/5 p-3 rounded-lg border border-emerald-500/10">
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center">
+                      <Icons.AlertCircle className="w-4 h-4 mr-1.5" /> Recommendations
+                    </h5>
+                    <ul className="space-y-2">
+                      {evaluation.improvements.map((s, i) => (
+                        <li key={i} className="text-xs text-slate-300 leading-relaxed font-medium bg-amber-500/5 p-3 rounded-lg border border-amber-500/10">
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-4 border-t border-slate-900">
+                  <button 
+                    onClick={handleNextQuestion}
+                    className="bg-slate-900 hover:bg-slate-850 border border-slate-800 text-xs font-bold text-white px-5 py-2.5 rounded-lg transition-colors"
+                  >
+                    {qIndex < questions.length - 1 ? "Proceed to Next Question" : "Complete Interview Track"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // AI COACH TAB
+    // ==========================================
+    function AICoachTab({ application }) {
+      const [messages, setMessages] = useState([
+        { role: "assistant", content: `Hello! I am your AI Career Coach. I have loaded all context regarding your parsed resume and your target role as a **${application.role}** at **${application.company}**.\n\nAsk me anything! I can help you prepare a custom cover letter outline, draft responses to difficult resume gaps, or plan a networking message strategy for recruiters.` }
+      ]);
+      const [inputValue, setInputValue] = useState("");
+      const [isTyping, setIsTyping] = useState(false);
+      const messagesEndRef = useRef(null);
+
+      // Keep scroll state aligned
+      useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, [messages, isTyping]);
+
+      const handleSend = (e) => {
+        e.preventDefault();
+        if (!inputValue.trim()) return;
+
+        const userMsg = { role: "user", content: inputValue };
+        setMessages(prev => [...prev, userMsg]);
+        setInputValue("");
+        setIsTyping(true);
+
+        // Generate tailored AI coach responses based on inputs
+        setTimeout(() => {
+          setIsTyping(false);
+          let coachReply = "";
+          const query = inputValue.toLowerCase();
+          
+          if (query.includes("cover") || query.includes("letter")) {
+            coachReply = `Here is a custom **Cover Letter Hook** tailored for **${application.company}**:\n\n*"Dear Hiring Manager,\n\nI was thrilled to see the opening for a ${application.role} at ${application.company}. Having followed ${application.company}'s recent work on scaling platforms, and with hands-on experience in Python and Flask (used to build predictive tools like ThermaSense), I am eager to apply my skills to your backend engineering initiatives. My background allows me to build stable APIs while rapidly picking up team technologies like Java and Docker..."*`;
+          } else if (query.includes("resume") || query.includes("improve") || query.includes("strength")) {
+            coachReply = `Looking at your ATS analysis, your core strength is **Python** and **SQL**. However, you should focus on **Java** and **Docker** to meet the job description's preferred stacks.\n\nI recommend revising your resume project bullets to quantify your results. Instead of *"Trained LSTM models for server temperature prediction"*, try: \n\n*"Developed AI-based LSTM models that improved temperature prediction accuracy by 14%, directly reducing simulated server cooling overhead."*`;
+          } else {
+            coachReply = `That is an excellent question regarding your application for the **${application.role}** at **${application.company}**.\n\nTo make your profile stand out, I suggest drafting a short connection note to their senior engineers on LinkedIn. You can mention your passion for backend scalability and reference the projects (like ThermaSense or SkillTrack) that you've developed.\n\nWould you like me to draft a LinkedIn networking message for you, or focus on some potential technical questions?`;
+          }
+
+          setMessages(prev => [...prev, { role: "assistant", content: coachReply }]);
+        }, 1500);
+      };
+
+      return (
+        <div className="glass-card rounded-2xl border-slate-800 flex flex-col h-[520px] overflow-hidden animate-fadeIn">
+          {/* Chat header */}
+          <div className="bg-slate-950 p-4 border-b border-slate-900/60 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-600 to-indigo-500 flex items-center justify-center">
+                <Icons.Sparkles className="w-4 h-4 text-white animate-pulse" />
+              </div>
+              <div>
+                <h3 className="font-heading font-bold text-sm text-slate-200">Coach Gemini</h3>
+                <p className="text-[10px] text-slate-500 font-semibold uppercase">Active Copilot Session</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Online Context Loaded</span>
+            </div>
+          </div>
+
+          {/* Message view */}
+          <div className="flex-grow p-4 sm:p-6 overflow-y-auto space-y-4 bg-slate-900/10">
+            {messages.map((msg, idx) => (
+              <div 
+                key={idx} 
+                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-fadeIn`}
+              >
+                <div 
+                  className={`max-w-[85%] sm:max-w-[70%] p-3.5 rounded-2xl text-sm leading-relaxed ${
+                    msg.role === "user" 
+                      ? "bg-primary-600 text-white rounded-tr-none shadow-md shadow-primary-500/10 font-semibold" 
+                      : "bg-slate-900 border border-slate-800 text-slate-300 rounded-tl-none font-medium whitespace-pre-line"
+                  }`}
+                >
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-slate-900 border border-slate-850 p-4 rounded-2xl rounded-tl-none flex space-x-1 items-center">
+                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></span>
+                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></span>
+                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></span>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Form input */}
+          <form onSubmit={handleSend} className="p-4 bg-slate-950 border-t border-slate-900 flex space-x-2">
+            <input
+              type="text"
+              placeholder="Ask Coach Gemini about cover letters, resume edits, or interview tricks..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="flex-grow bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-primary-500"
+            />
+            <button 
+              type="submit"
+              className="p-2.5 bg-primary-600 hover:bg-primary-700 rounded-xl text-white border border-primary-500 shadow-md shadow-primary-500/10 transition-all flex items-center justify-center flex-shrink-0"
+            >
+              <Icons.Send className="w-5 h-5" />
+            </button>
+          </form>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // NOTES TAB
+    // ==========================================
+    function NotesTab({ application, onSaveNotes }) {
+      const [notes, setNotes] = useState(application.notes || "");
+      const [showNotify, setShowNotify] = useState(false);
+
+      const handleSave = () => {
+        onSaveNotes(application.id, notes);
+        setShowNotify(true);
+        setTimeout(() => setShowNotify(false), 3000);
+      };
+
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-heading font-extrabold text-2xl text-white">Application Workspace Notes</h2>
+              <p className="text-xs text-slate-400 mt-1 font-medium">Capture custom details, key timelines, and follow-up strategies for this role.</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              {showNotify && (
+                <span className="text-xs text-emerald-400 font-bold animate-pulse-subtle">
+                  ✓ Notes saved successfully
+                </span>
+              )}
+              <button 
+                onClick={handleSave}
+                className="bg-primary-600 hover:bg-primary-700 text-xs font-bold text-white px-5 py-2.5 rounded-lg border border-primary-500 shadow-lg shadow-primary-500/10 transition-colors"
+              >
+                Save Notes
+              </button>
+            </div>
+          </div>
+
+          {/* Simple styling text editor simulation */}
+          <div className="glass-card rounded-2xl border-slate-800 overflow-hidden flex flex-col h-[420px]">
+            <div className="bg-slate-950/50 px-4 py-2.5 border-b border-slate-900/60 flex items-center justify-between overflow-x-auto">
+              <div className="flex items-center space-x-1">
+                {["Bold", "Italic", "Header", "List", "Code", "Link"].map(tool => (
+                  <button 
+                    key={tool}
+                    onClick={() => {
+                      if (tool === "Bold") setNotes(n => n + " **bold_text**");
+                      if (tool === "Italic") setNotes(n => n + " *italic_text*");
+                      if (tool === "Header") setNotes(n => n + "\n### Section Header\n");
+                      if (tool === "List") setNotes(n => n + "\n- Item detail\n");
+                      if (tool === "Code") setNotes(n => n + " `code_block`");
+                      if (tool === "Link") setNotes(n => n + " [link_title](https://example.com)");
+                    }}
+                    className="px-2.5 py-1 text-[10px] font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-900 rounded-md transition-colors"
+                  >
+                    {tool}
+                  </button>
+                ))}
+              </div>
+              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Markdown Supported</span>
+            </div>
+
+            <textarea
+              className="flex-grow p-6 bg-slate-900/10 text-slate-200 placeholder-slate-700 font-mono text-sm leading-relaxed border-0 focus:outline-none resize-none font-sans"
+              placeholder="Start drafting notes... write details like deadline dates, interviewer names, key accomplishments to mention, or checklist tasks."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+          </div>
+        </div>
+      );
+    }
+
+    // Render App
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

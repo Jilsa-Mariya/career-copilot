@@ -193,5 +193,151 @@
         },
         "status": "Rejected",
         "notes": "Deadline at June 16"
+    },
+    {
+        "id": 2,
+        "company": "UST Global",
+        "role": "UI/UX Designer",
+        "resume_filename": "Jilsa_Mariya_Resume_May26.pdf",
+        "resume_text": "Computer Science student with knowledge of Python and MySQL through coursework and certifications. Participated in technical events, project expos, and an international conference. Gained exposure to industry practices through an industrial visit to Spectrum Software Solutions Pvt. Ltd. and experience working as a Junior Software Engineering Intern. SKILLS Technical Skills: Programming Languages & Database - Python, JavaScript, C, SQL, MySQL Web Technologies - HTML, CSS, Flask Tools & Platforms - Git, GitHub, Postman, VS Code Soft Skills: Team Collaboration \u2013 Worked in hackathons, group projects, and collaborative development environments. Communication Skills \u2013 Participated in idea pitching competitions, technical events, and team-based activities. Leadership & Coordination \u2013 Served as an ex-com member and coordinated activities in the college. EXPERIENCE Junior Software Engineering Intern \u2014 WhiteMatrix Software Solutions March 2026 Selected for the role of Junior Software Engineering Intern.Internship onboarding and project allocation currently in progress. PROJECTS \u25cf ThermaSense \u2014 AI-based Thermal Prediction System: \u25cb Tech Stack - Python, Flask, LSTM, HTML, CSS, JavaScript \u25cb Trained LSTM models for server temperature prediction and thermal trend analysis. \u25cb Assisted in backend integration and real-time monitoring workflow implementation. \u25cb Collaborated in developing an AI-based cooling optimization system for data centers. \u25cf SkillTrack \u2014 Career Guidance Platform: \u25cb Tech Stack - Python, Flask, MySQL, HTML, CSS, JavaScript, Figma \u25cb Developed a web-based platform with career roadmaps, skill assessments, and course recommendations. \u25cb Worked primarily on backend development and database management. \u25cb Assisted in frontend integration and overall application workflow implementation. \u25cf Moodmentor \u2014 AI-powered Mood Tracking Application \u25cb Tech Stack - Python, Flask, MongoDB, HTML, CSS, JavaScript, Cohere AI \u25cb Developed an interactive mood tracking and journaling web application focused on mental wellness. \u25cb Integrated facial expression analysis and AI chatbot support for mood-based interaction. \u25cb Independently handled backend development, database integration, and AI feature implementation. ACHIEVEMENTS & CERTIFICATIONS \u25cf Secured 1st Place in Hack4Edu Hackathon conducted by RSET for developing an educational web-based solution. \u25cf Secured 2nd Place in HackEuropa2.0 Hackathon conducted by CUSAT Kalamassery for proposing a technology-driven solution to a real-world problem. JILSA MARIYA Thrissur, Kerala, India | +91 9188257008 | jilsamariyapj@gmail.com LinkedIn.com/in/jilsa-mariya-p-j Github.com/Jilsa-Mariya \u25cf Secured 3rd Place in Pitch Perfect Idea Pitching Competition conducted by Christ College of Engineering for presenting an innovative project idea focused on practical problem solving. \u25cf Completed MySQL Database Administration Course from Udemy covering SQL queries, database design, and administration fundamentals. \u25cf Completed Python Programming Course from GTech covering core Python concepts and problem-solving techniques. EXTRACURRICULAR ACTIVITIES & PARTICIPATIONS \u25cf Participated in HackQuest Hackathon conducted by RSET focused on improving the quality of education in rural areas. \u25cf Participated in TakeDown 2025 Hackathon focused on developing solutions for environmental pollution through recycling, reuse, and sustainable waste management practices. \u25cf Participated in the Young Innovators Program (YIP) focused on developing technology-driven solutions for real-world problems. \u25cf Attended Industrial Visits at Spectrum Software Solutions Pvt. Ltd., UST Global, and ICFOSS, Thiruvananthapuram to gain exposure to software development environments and industry practices. \u25cf Served as an Execom Member in CoDe-Computer Science Association, contributing to event coordination and student activities. EDUCATION B.Tech Computer Science and Engineering - Christ College of Engineering, Irinjalakuda 2023 - 2027 - CGPA of 7.96 12th Kerala State Board - GVHSS Valapad, Thrissur 2021 - 2023 - Computer Science with 94.5% LANGUAGES \u25cf Malayalam \u25cf English",
+        "jd_text": "About the Role\n\nAs a UI/UX Designer Intern, you will help design intuitive, user-friendly, and visually appealing digital experiences. You will collaborate with product managers, developers, and researchers to create interfaces that improve usability and enhance user satisfaction.\n\nResponsibilities\nDesign user interfaces for web and mobile applications.\nCreate wireframes, prototypes, user flows, and mockups.\nConduct user research and usability testing.\nCollaborate with developers to ensure design feasibility and consistency.\nImprove user experience based on feedback and analytics.\nMaintain design systems and style guidelines.\nPresent design ideas and solutions to stakeholders.\nRequired Skills\nBasic understanding of UI/UX design principles.\nProficiency in design tools such as Figma, Adobe XD, or Sketch.\nKnowledge of typography, color theory, spacing, and layout.\nUnderstanding of responsive and mobile-first design.\nCreative thinking and problem-solving abilities.\nGood communication and teamwork skills.\nPreferred Qualifications\nPursuing or recently completed a degree in Design, Computer Science, Human-Computer Interaction, or related fields.\nPortfolio showcasing UI/UX projects or case studies.\nFamiliarity with HTML/CSS basics.\nUnderstanding of accessibility and usability standards.About the Role\n\nAs a UI/UX Designer Intern, you will help design intuitive, user-friendly, and visually appealing digital experiences. You will collaborate with product managers, developers, and researchers to create interfaces that improve usability and enhance user satisfaction.\n\nResponsibilities\nDesign user interfaces for web and mobile applications.\nCreate wireframes, prototypes, user flows, and mockups.\nConduct user research and usability testing.\nCollaborate with developers to ensure design feasibility and consistency.\nImprove user experience based on feedback and analytics.\nMaintain design systems and style guidelines.\nPresent design ideas and solutions to stakeholders.\nRequired Skills\nBasic understanding of UI/UX design principles.\nProficiency in design tools such as Figma, Adobe XD, or Sketch.\nKnowledge of typography, color theory, spacing, and layout.\nUnderstanding of responsive and mobile-first design.\nCreative thinking and problem-solving abilities.\nGood communication and teamwork skills.\nPreferred Qualifications\nPursuing or recently completed a degree in Design, Computer Science, Human-Computer Interaction, or related fields.\nPortfolio showcasing UI/UX projects or case studies.\nFamiliarity with HTML/CSS basics.\nUnderstanding of accessibility and usability standards.",
+        "match_score": 60,
+        "strengths": [
+            "Proficiency in design tools such as Figma, Adobe XD, or Sketch",
+            "Creative thinking and problem-solving abilities",
+            "Good communication and teamwork skills",
+            "Pursuing or recently completed a degree in Design, Computer Science, Human-Computer Interaction, or related fields",
+            "Familiarity with HTML/CSS basics"
+        ],
+        "partial_matches": [
+            "Basic understanding of UI/UX design principles",
+            "Portfolio showcasing UI/UX projects or case studies"
+        ],
+        "missing_skills": [
+            "Knowledge of typography, color theory, spacing, and layout",
+            "Understanding of responsive and mobile-first design",
+            "Understanding of accessibility and usability standards"
+        ],
+        "resume_improvements": [
+            "For projects where Figma was utilized, explicitly detail how basic UI/UX design principles were applied in the design process (e.g., user flow, information architecture, visual hierarchy).",
+            "If applicable, describe how elements like typography, color theory, spacing, and layout were consciously considered and implemented in the design of your web applications, especially for projects where design tools like Figma were used.",
+            "Indicate if your web applications or designs were developed with responsive or mobile-first design principles in mind.",
+            "Clearly state that your listed projects function as a UI/UX design portfolio, and consider providing links to live demos or detailed case studies if available.",
+            "If you possess knowledge or experience with accessibility and usability standards, incorporate this into your skills section or project descriptions."
+        ],
+        "learning_path": {
+            "roadmap": [
+                {
+                    "skill": "Knowledge of Typography, Color Theory, Spacing, and Layout (UI/Visual Design Fundamentals)",
+                    "topics": [
+                        "Typography: Typefaces, font pairings, hierarchy, legibility, line-height, kerning, tracking.",
+                        "Color Theory: Color wheel, primary/secondary/tertiary colors, complementary/analogous/triadic schemes, color psychology, contrast ratios, creating consistent color palettes.",
+                        "Spacing & Proximity: Margins, padding, white space, visual hierarchy, alignment, grid systems (e.g., 8pt grid system).",
+                        "Layout: Common design patterns, grid layouts (flexbox & CSS Grid application), F-pattern, Z-pattern, Gestalt principles of perception.",
+                        "Design Principles: Balance, contrast, emphasis, movement, pattern, rhythm, unity, variety.",
+                        "Introduction to UI Design Tools: Figma, Sketch, Adobe XD (focus on applying principles)."
+                    ],
+                    "resources": [
+                        "Online Courses: Coursera (Google UX Design Professional Certificate - sections on UI), Udemy/Skillshare courses on UI/UX Design Basics, Visual Design Principles.",
+                        "Books: 'The Non-Designer's Design Book' by Robin Williams, 'Designing with Type' by James Craig, 'Universal Principles of Design' by William Lidwell.",
+                        "Blogs & Articles: Smashing Magazine (UI/UX category), NN/g (Nielsen Norman Group) articles on visual design.",
+                        "Guidelines: Google Material Design Guidelines, Apple Human Interface Guidelines.",
+                        "Tools: Coolors.co (color palettes), Adobe Color, Fontjoy (font pairing), Figma/Sketch/Adobe XD tutorials."
+                    ],
+                    "project": "Redesign a simple webpage (e.g., a blog post, a 'contact us' page, or a personal portfolio section). Apply new typography, a consistent color palette, and a well-structured layout to improve visual appeal and readability. Document your design choices and the principles you applied."
+                },
+                {
+                    "skill": "Understanding of Responsive and Mobile-First Design",
+                    "topics": [
+                        "Core Concepts: Definition of responsive design, adaptive design, and mobile-first approach.",
+                        "Media Queries: CSS syntax and best practices for defining breakpoints based on device characteristics.",
+                        "Fluid Layouts: Implementing layouts using percentages, viewport units (vw, vh), Flexbox, and CSS Grid.",
+                        "Flexible Media: Handling images, videos, and other media elements to scale appropriately.",
+                        "Viewport Meta Tag: Correct usage for consistent rendering across devices.",
+                        "Breakpoints Strategy: Choosing effective breakpoints and testing across various screen sizes.",
+                        "Mobile UI Patterns: Touch targets, mobile navigation patterns (hamburger menus, bottom navigation), input methods.",
+                        "Performance Optimization: Loading times, image optimization for mobile devices."
+                    ],
+                    "resources": [
+                        "Online Courses: FreeCodeCamp's 'Responsive Web Design' certification, Udacity's 'Responsive Web Design Fundamentals', Udemy courses on Responsive Web Design with Flexbox/CSS Grid.",
+                        "Documentation: MDN Web Docs on Responsive Web Design, Media Queries, Flexbox, CSS Grid.",
+                        "Books: 'Responsive Web Design' by Ethan Marcotte, 'Mobile First' by Luke Wroblewski.",
+                        "Tools: Browser Developer Tools (Chrome, Firefox) for responsive testing, online responsive design testers."
+                    ],
+                    "project": "Take the redesigned webpage from the previous project (or a new static desktop-only page) and implement a mobile-first responsive design. Ensure it looks good and functions well on at least three different screen sizes (e.g., mobile portrait, tablet landscape, desktop)."
+                },
+                {
+                    "skill": "Understanding of Accessibility and Usability Standards",
+                    "topics": [
+                        "Web Accessibility (A11y) Introduction: What it is, why it's important, and its impact on users (WCAG principles: Perceivable, Operable, Understandable, Robust).",
+                        "Semantic HTML: Correct usage of headings (h1-h6), lists (ul, ol, dl), landmark roles (main, nav, header, footer, aside, section), and other HTML5 elements.",
+                        "Keyboard Navigation: Ensuring all interactive elements are reachable and operable via keyboard (tab order, focus states).",
+                        "Color Contrast: WCAG guidelines for text and interactive elements, using contrast checker tools.",
+                        "Alternative Text (Alt Text): Writing descriptive alt text for images and other non-text content.",
+                        "Form Accessibility: Proper labels, error identification, fieldsets, legends, and accessibility of input types.",
+                        "ARIA Attributes: Introduction to ARIA roles, states, and properties (e.g., aria-label, aria-describedby) for enhancing semantic meaning where native HTML is insufficient.",
+                        "Usability Principles: Nielsen's 10 Usability Heuristics, user flows, cognitive load, consistency.",
+                        "Testing: Introduction to accessibility testing tools (Axe, Lighthouse) and screen reader basics."
+                    ],
+                    "resources": [
+                        "Official Guidelines: WCAG Quick Reference (W3C), W3C WAI (Web Accessibility Initiative) website.",
+                        "Blogs & Guides: WebAIM (Web Accessibility In Mind) guides and articles, MDN Web Docs on Accessibility.",
+                        "Books: 'Don't Make Me Think, Revisited' by Steve Krug (for usability), 'Inclusive Design for a Digital World' by Lisa Charlotte Muth.",
+                        "Online Courses: edX/W3Cx 'Introduction to Web Accessibility', Udacity 'Web Accessibility by Google'.",
+                        "Tools: Axe DevTools browser extension, Lighthouse (built into Chrome DevTools), WebAIM Contrast Checker."
+                    ],
+                    "project": "Perform an accessibility and usability audit on a public website (or your responsive project page). Identify at least 5 accessibility issues using tools like Axe/Lighthouse and manual checks (e.g., keyboard navigation). Then, implement fixes for these issues. Additionally, write a short report outlining at least 3 usability improvements based on Nielsen's heuristics."
+                }
+            ]
+        },
+        "interview_prep": {
+            "technical_topics": [
+                "UI/UX Design Principles (Usability, Consistency, Feedback, Affordance, Learnability)",
+                "Design Tools (Figma, Wireframing, Prototyping, Mockups, User Flows)",
+                "User Research & Usability Testing (Methods, Interviewing, A/B Testing, Heuristic Evaluation)",
+                "Responsive & Mobile-First Design",
+                "Visual Design (Typography, Color Theory, Layout, Spacing)",
+                "HTML & CSS Fundamentals (for design feasibility and developer collaboration)",
+                "Accessibility & Usability Standards",
+                "Design Systems & Style Guides"
+            ],
+            "technical_questions": [
+                "You mentioned using Figma for your SkillTrack project. Can you describe your experience with it and what specific features you utilized for that project?",
+                "How do you approach designing for both web and mobile platforms? What are the key differences and considerations you keep in mind for responsive and mobile-first design?",
+                "Can you explain the difference between wireframes, mockups, and prototypes, and when you would use each in a design process?",
+                "Imagine you're designing a new feature for a career guidance platform like SkillTrack. What UI/UX principles would you prioritize to ensure it's user-friendly and effective, and why?",
+                "How does your understanding of HTML and CSS contribute to your perspective as a UI/UX designer, especially when collaborating with developers?",
+                "What steps would you take to conduct basic user research to validate a design idea or identify pain points in an existing interface?",
+                "Describe a time you received constructive feedback on a design idea. How did you incorporate it into your iteration process?",
+                "What are some common accessibility considerations you would keep in mind when designing a user interface to ensure it's usable by a wide range of people?"
+            ],
+            "hr_topics": [
+                "Motivation for UI/UX & Career Goals",
+                "Team Collaboration & Communication Skills",
+                "Problem-Solving & Creative Thinking",
+                "Adaptability & Learning Mindset",
+                "Handling Feedback & Iteration",
+                "Leadership & Initiative (from Execom and project roles)",
+                "Time Management & Prioritization"
+            ],
+            "hr_questions": [
+                "Given your strong background in backend development and AI projects, what specifically drew you to a UI/UX Designer Intern role, and what do you hope to gain from this experience?",
+                "The job description emphasizes collaboration with developers, product managers, and researchers. Can you give an example from your hackathon or project experience where you successfully collaborated in a team, highlighting your communication style?",
+                "You've secured places in several hackathons and an idea pitching competition. How do these experiences demonstrate your creative thinking, problem-solving abilities, and ability to present ideas, all of which are relevant to UI/UX design?",
+                "Where do you see yourself contributing most effectively in an intern role, especially considering that you're in the early stages of your UI/UX journey?",
+                "Describe a challenging situation you faced in a group project or extracurricular activity (like CoDe Execom). How did you handle it, and what did you learn?",
+                "How do you typically handle constructive criticism or feedback on your work, especially when it comes to design choices?",
+                "What are your long-term career aspirations, and how do you see this UI/UX internship fitting into that path?"
+            ],
+            "project_questions": [
+                "Let's talk about SkillTrack, where you mentioned using Figma. Can you walk me through the design process for a specific feature on that platform, focusing on the user's journey and how you utilized Figma to bring your ideas to life?",
+                "For the Moodmentor application, what were some of the key user experience challenges you anticipated or encountered, especially with features like facial expression analysis and the AI chatbot? How did you approach making those interactions intuitive?",
+                "In your ThermaSense project, although it was AI-focused, how did you consider the user interface for monitoring and interacting with the system? What specific UI elements or feedback mechanisms were important for users to understand the AI's predictions?",
+                "If you were to revisit any of your projects with a stronger, dedicated UI/UX focus, which one would it be and what specific changes or design decisions would you propose to significantly improve the user experience?",
+                "When developing the 'SkillTrack' platform, how did you ensure that the career roadmaps and skill assessments were not only informative but also intuitive and engaging for the users? Did you consider any specific user flows for these features?"
+            ]
+        },
+        "status": "Saved",
+        "notes": "Deadline on 24th June, should check the mails"
     }
 ]

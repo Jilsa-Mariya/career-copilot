@@ -120,6 +120,7 @@ if st.button("Analyze Profile"):
         resume_text = extract_resume_text(
             uploaded_resume
         )
+        print(resume_text)
 
         result = analyze_match(
             resume_text,
@@ -166,6 +167,9 @@ if st.button("Analyze Profile"):
                 "notes": ""
             }
         )
+
+        print("APPLICATION COUNT:")
+        print(len(applications))
 
         save_applications(applications)
 
