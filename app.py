@@ -127,15 +127,42 @@ if st.button("Analyze Profile"):
             jd_text
         )
 
-        learning_path = generate_learning_path(
-            result["missing_skills"]
-        )
-        
-        questions = generate_questions(
-        resume_text,
-        jd_text
-    )
+        try:
 
+            learning_path = generate_learning_path(
+                result["missing_skills"]
+            )
+
+        except Exception:
+
+            learning_path = {
+                "roadmap": []
+            }
+
+            st.warning(
+                "Learning roadmap unavailable."
+            )
+
+            try:
+
+                questions = generate_questions(
+                    resume_text,
+                    jd_text
+                )
+
+            except Exception:
+
+                questions = {
+                    "technical_topics": [],
+                    "technical_questions": [],
+                    "hr_topics": [],
+                    "hr_questions": [],
+                    "project_questions": []
+                }
+
+                st.warning(
+                    "Interview preparation unavailable."
+                )
         applications = load_applications()
 
         applications.append(

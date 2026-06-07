@@ -11,36 +11,53 @@ def ask_coach(application, question):
     prompt = f"""
 You are a career coach.
 
-Current Job:
+Job Role:
 {application['role']}
 
-Missing Skills:
-{application['missing_skills']}
+Current Match Score:
+{application['match_score']}%
 
 Strengths:
 {application['strengths']}
 
-User Question:
+Missing Skills:
+{application['missing_skills']}
+
+Question:
 {question}
 
 Rules:
 
 - Answer ONLY the user's question.
-- Do not discuss LinkedIn unless asked.
 - Do not discuss networking unless asked.
-- If the user asks how to learn a skill, provide:
-  1. Topics
-  2. Resources
-  3. Practice plan
+- Do not discuss LinkedIn unless asked.
+- If user asks how to learn something:
+  provide topics,
+  resources,
+  and a simple plan.
 
-- If the user asks about interview preparation:
-  provide interview guidance.
+- If user asks interview questions:
+  provide interview advice.
 
-- Keep answers under 100 words.
+- Keep response under 150 words.
 
 - Use bullet points.
 """
 
-    response = model.generate_content(prompt)
+    try:
 
-    return response.text
+        response = model.generate_content(
+            prompt
+        )
+
+        return response.text
+
+    except Exception:
+
+        return """
+    • AI Coach temporarily unavailable.
+
+    • Gemini quota exceeded.
+
+    • Try again later.
+    """

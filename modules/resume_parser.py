@@ -21,6 +21,4 @@ def extract_resume_text(pdf_file):
         text
     )
 
-    text = text.strip()
-
-    return text
+    return text.strip()
