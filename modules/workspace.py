@@ -43,10 +43,25 @@ def show_workspace(application):
             application["status"]
         )
 
-        st.metric(
-            "Match Score",
-            f"{application['match_score']}%"
-        )
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+            st.metric(
+                "Match Score",
+                f"{application['match_score']}%"
+            )
+
+        with c2:
+            st.metric(
+                "Strengths",
+                len(application["strengths"])
+            )
+
+        with c3:
+            st.metric(
+                "Missing",
+                len(application["missing_skills"])
+            )
 
         st.subheader("✅ Strengths")
 
@@ -152,30 +167,24 @@ def show_workspace(application):
 
         for item in roadmap["roadmap"]:
 
-            st.subheader(
-                item["skill"]
-            )
+            with st.expander(
+                f"📚 {item['skill']}",
+                expanded=False
+            ):
 
-            st.write("📚 Topics")
+                st.write("### Topics")
 
-            for topic in item["topics"]:
-                st.write(
-                    f"• {topic}"
+                for topic in item["topics"]:
+                    st.write(f"• {topic}")
+
+                st.write("### Resources")
+
+                for resource in item["resources"]:
+                    st.write(f"• {resource}")
+
+                st.success(
+                    f"🚀 Project: {item['project']}"
                 )
-
-            st.write("🎓 Resources")
-
-            for resource in item["resources"]:
-                st.write(
-                    f"• {resource}"
-                )
-
-            st.write(
-                f"🚀 Practice Project: "
-                f"{item['project']}"
-            )
-
-            st.divider()
 
     # --------------------
     # INTERVIEW PREP
@@ -187,137 +196,141 @@ def show_workspace(application):
             "interview_prep"
         ]
 
-        st.header(
-            "💻 Technical Interview"
-        )
-
-        st.subheader(
-            "Topics To Focus On"
-        )
-
-        for topic in prep[
-            "technical_topics"
-        ]:
-            st.info(topic)
-
-        st.subheader(
-            "Likely Questions"
-        )
-
-        for q in prep[
-            "technical_questions"
-        ]:
-            st.write(f"• {q}")
-
-        st.divider()
-
-        st.header(
-            "🧑‍💼 HR Interview"
-        )
-
-        st.subheader(
-            "Topics To Focus On"
-        )
-
-        for topic in prep[
-            "hr_topics"
-        ]:
-            st.info(topic)
-
-        st.subheader(
-            "Likely Questions"
-        )
-
-        for q in prep[
-            "hr_questions"
-        ]:
-            st.write(f"• {q}")
-
-        st.divider()
-
-        st.header(
-            "🚀 Project Discussion"
-        )
-
-        for q in prep[
-            "project_questions"
-        ]:
-            st.write(f"• {q}")
-
-        st.divider()
-
-        st.header(
-            "🎤 Mock Interviews"
-        )
-
-        interview_type = st.selectbox(
-            "Choose Interview",
-            [
-                "Technical",
-                "HR",
-                "Project"
-            ]
-        )
-
-        if st.button(
-            "Generate Question"
+        with st.expander(
+            "💻 Technical Interview",
+            expanded=True
         ):
-
-            question = generate_question(
-                application,
-                interview_type
+        
+            st.subheader(
+                "Topics To Focus On"
             )
 
-            st.session_state[
-                "current_question"
-            ] = question
+            for topic in prep[
+                "technical_topics"
+            ]:
+                st.info(topic)
 
-        if "current_question" in st.session_state:
+            st.subheader(
+                "Likely Questions"
+            )
 
-            st.success(
-                st.session_state[
-                    "current_question"
+            for q in prep[
+                "technical_questions"
+            ]:
+                st.write(f"• {q}")
+
+            st.divider()
+
+        with st.expander(
+            "🧑‍💼 HR Interview",
+            expanded=True
+        ):
+
+            st.subheader(
+                "Topics To Focus On"
+            )
+
+            for topic in prep[
+                "hr_topics"
+            ]:
+                st.info(topic)
+
+            st.subheader(
+                "Likely Questions"
+            )
+
+            for q in prep[
+                "hr_questions"
+            ]:
+                st.write(f"• {q}")
+
+            st.divider()
+
+        with st.expander(
+            "🚀 Project Discussion",
+            expanded=True
+        ):
+
+            for q in prep[
+                "project_questions"
+            ]:
+                st.write(f"• {q}")
+
+            st.divider()
+
+        with st.expander(
+            "🎤 Mock Interviews",
+            expanded=True
+        ):
+
+            interview_type = st.selectbox(
+                "Choose Interview",
+                [
+                    "Technical",
+                    "HR",
+                    "Project"
                 ]
             )
 
-            answer = st.text_area(
-                "Your Answer",
-                height=150
-            )
-
             if st.button(
-                "Evaluate Answer"
+                "Generate Question"
             ):
 
-                result = evaluate_answer(
+                question = generate_question(
+                    application,
+                    interview_type
+                )
+
+                st.session_state[
+                    "current_question"
+                ] = question
+
+            if "current_question" in st.session_state:
+
+                st.success(
                     st.session_state[
                         "current_question"
-                    ],
-                    answer
+                    ]
                 )
 
-                st.metric(
-                    "Score",
-                    f"{result['score']}/10"
+                answer = st.text_area(
+                    "Your Answer",
+                    height=150
                 )
 
-                st.subheader(
-                    "Strengths"
-                )
+                if st.button(
+                    "Evaluate Answer"
+                ):
 
-                for item in result[
-                    "strengths"
-                ]:
-                    st.success(item)
+                    result = evaluate_answer(
+                        st.session_state[
+                            "current_question"
+                        ],
+                        answer
+                    )
 
-                st.subheader(
-                    "Improvements"
-                )
+                    st.metric(
+                        "Score",
+                        f"{result['score']}/10"
+                    )
 
-                for item in result[
-                    "improvements"
-                ]:
-                    st.warning(item)
+                    st.subheader(
+                        "Strengths"
+                    )
+
+                    for item in result[
+                        "strengths"
+                    ]:
+                        st.success(item)
+
+                    st.subheader(
+                        "Improvements"
+                    )
+
+                    for item in result[
+                        "improvements"
+                    ]:
+                        st.warning(item)
 
     # --------------------
     # AI COACH
